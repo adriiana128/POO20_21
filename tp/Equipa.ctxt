@@ -1,0 +1,27 @@
+#BlueJ class context
+comment0.target=Equipa
+comment1.params=
+comment1.target=Equipa()
+comment1.text=\n\ Construtor\ vazio\n
+comment10.params=
+comment10.target=Equipa\ clone()
+comment2.params=nomeE\ jogador
+comment2.target=Equipa(java.lang.String,\ Jogador)
+comment2.text=\n\ Construtor\ por\ parametrizado\n
+comment3.params=e
+comment3.target=Equipa(Equipa)
+comment3.text=\n\ Construtor\ por\ c\u00F3pia\n
+comment4.params=
+comment4.target=java.lang.String\ getNomeE()
+comment5.params=
+comment5.target=Jogador\ getJogador()
+comment6.params=ne
+comment6.target=void\ setNomeE(java.lang.String)
+comment7.params=j
+comment7.target=void\ setJogador(Jogador)
+comment8.params=o
+comment8.target=boolean\ equals(java.lang.Object)
+comment8.text=\n\ Metodo\ Equals\n
+comment9.params=
+comment9.target=java.lang.String\ toString()
+numComments=11

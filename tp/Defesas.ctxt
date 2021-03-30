@@ -1,0 +1,17 @@
+#BlueJ class context
+comment0.target=Defesas
+comment1.params=
+comment1.target=Defesas()
+comment1.text=\n\ Construtor\ vazio\n
+comment2.params=id\ velocidade\ resistencia\ destreza\ impulsao\ jogoCabeca\ remate\ capacidadePasse\ habilidade\ historicoEquipa\ nomeJ
+comment2.target=Defesas(long,\ double,\ double,\ double,\ double,\ double,\ double,\ double,\ double,\ java.util.List,\ java.lang.String)
+comment2.text=\n\ Construtor\ parametrizado\ \n
+comment3.params=d
+comment3.target=Defesas(Defesas)
+comment3.text=\n\ Construtor\ de\ c\u00F3pia\ \n
+comment4.params=o
+comment4.target=boolean\ equals(java.lang.Object)
+comment4.text=\n\ Metodo\ Equals\n
+comment5.params=
+comment5.target=Defesas\ clone()
+numComments=6
