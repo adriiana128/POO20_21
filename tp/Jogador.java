@@ -1,11 +1,8 @@
-import java.util.List;
-import java.util.ArrayList;
-import java.util.stream.Collectors;
 import java.lang.Object;
-import java.io.Serializable;
-import java.util.Arrays; 
+import java.util.ArrayList;
+import java.util.List;
 
-public class Jogador {
+public class Jogador{
     
    //Variaveis de instância
    private long id; //nº/id do jogador
@@ -16,8 +13,8 @@ public class Jogador {
    private double jogoCabeca; //jogo de cabeça do jogador
    private double remate; //remate do jogador
    private double capacidadePasse; //capacidade de passe do jogador
-   private double habilidade; //
-   private List<Equipa> historicoEquipa; 
+   private double habilidade; // habilidade geral do jogador
+   private List<String> historicoEquipa; // lista com nome das equipas às quais o jogador já pertenceu
    private String nomeJ; //nome do jogador
 
    /**
@@ -33,7 +30,7 @@ public class Jogador {
         this.remate = 0;
         this.capacidadePasse = 0;
         this.habilidade = 0;
-        this.historicoEquipa = new ArrayList<Equipa>();
+        this.historicoEquipa = new ArrayList<>();
         this.nomeJ = "";
    }
     
@@ -42,7 +39,7 @@ public class Jogador {
     */
     public Jogador(long id, double velocidade, double resistencia, double destreza,
     double impulsao, double jogoCabeca, double remate, double capacidadePasse, 
-    double habilidade, List<Equipa> hist, String nomeJ){
+    double habilidade, List<String> hist, String nomeJ){
         this.id = id;
         this.velocidade = velocidade;
         this.resistencia = resistencia;
@@ -52,7 +49,7 @@ public class Jogador {
         this.remate = remate;
         this.capacidadePasse = capacidadePasse;
         this.habilidade = habilidade;
-        this.historicoEquipa = hist.stream().collect(Collectors.toList());
+        this.setHist(hist);
         this.nomeJ = nomeJ;
    }
     
@@ -69,7 +66,7 @@ public class Jogador {
         this.remate = j.getRemate();
         this.capacidadePasse = j.getCapacidadePasse();
         this.habilidade = j.getHabilidade();
-        this.historicoEquipa = j.getHist();
+        this.setHist(j.getHist());
         this.nomeJ = j.getNomeJ();
    }
     
@@ -111,10 +108,11 @@ public class Jogador {
         return this.habilidade;
    }
    
-   public List<Equipa> getHist(){
-       if(this.historicoEquipa == null) return new ArrayList<Equipa>();
-       else return this.historicoEquipa;
-   }
+   public List<String> getHist(){
+        List<String> ret = new ArrayList<>();
+        for (String equipa : historicoEquipa) ret.add(equipa);
+        return ret;
+    }
    
    public String getNomeJ(){
         return this.nomeJ;
@@ -158,8 +156,8 @@ public class Jogador {
        this.habilidade = h;
    }
    
-   public void setHist(ArrayList<Equipa> hist){
-       this.historicoEquipa = hist.stream().collect(Collectors.toList());
+   public void setHist(List<String> hist){
+        for(String equipa : hist) this.historicoEquipa.add(equipa);
    }
    
    public void setNome(String nj){
@@ -170,40 +168,36 @@ public class Jogador {
     * Metodo Equals
     */
    public boolean equals(Object o){
-      if (this == o)
-            return true;
-            
-      if (o == null || this.getClass() != o.getClass())
-            return false;
+      if (this == o) return true;
+      if (o == null || this.getClass() != o.getClass()) return false;
             
       Jogador j = (Jogador) o;
-        
       return this.id == j.getId() &&
-      this.velocidade == j.getVelocidade() &&
-      this.resistencia == j.getResistencia() &&
-      this.destreza == j.getDestreza() &&
-      this.impulsao == j.getImpulsao() &&
-      this.jogoCabeca == j.getJogoCabeca() &&
-      this.remate == j.getRemate() &&
-      this.capacidadePasse == j.getCapacidadePasse() &&
-      this.habilidade == j.getHabilidade() &&
-      j.getHist().equals(historicoEquipa) &&
-      this.nomeJ.equals(j.getNomeJ());
+                  this.velocidade == j.getVelocidade() &&
+                  this.resistencia == j.getResistencia() &&
+                  this.destreza == j.getDestreza() &&
+                  this.impulsao == j.getImpulsao() &&
+                  this.jogoCabeca == j.getJogoCabeca() &&
+                  this.remate == j.getRemate() &&
+                  this.capacidadePasse == j.getCapacidadePasse() &&
+                  this.habilidade == j.getHabilidade() &&
+                  j.getHist().equals(historicoEquipa) &&
+                  this.nomeJ.equals(j.getNomeJ());
    }
     
    public String toString(){
         StringBuilder sb = new StringBuilder();
-        sb.append("Nº Jogador: ").append(id).append("\n");
-        sb.append("Velocidade: " + this.getVelocidade() + "\n");
-        sb.append("Resistência: " + this.getResistencia() + "\n");
-        sb.append("Destreza: " + this.getDestreza() + "\n");
-        sb.append("Impulsão: " + this.getImpulsao() + "\n");
-        sb.append("Jogo de Cabeça: " + this.getJogoCabeca() + "\n");
-        sb.append("Remate: " + this.getRemate() + "\n");
-        sb.append("Capacidade de Passe: " + this.getCapacidadePasse() + "\n");
-        sb.append("Habilidade: " + this.getHabilidade() + "\n");
-        sb.append("Histórico de Equipas: "+ this.getHist() + "\n");
-        sb.append("Nome do Jogador: " + this.getNomeJ() + "\n");
+        sb.append("Nº Jogador: ").append(id).append("\n")
+                .append("Velocidade: ").append(this.getVelocidade()).append("\n")
+                .append("Resistência: ").append(this.getResistencia()).append("\n")
+                .append("Destreza: ").append(this.getDestreza()).append("\n")
+                .append("Impulsão: ").append(this.getImpulsao()).append("\n")
+                .append("Jogo de Cabeça: ").append(this.getJogoCabeca()).append("\n")
+                .append("Remate: ").append(this.getRemate()).append("\n")
+                .append("Capacidade de Passe: ").append(this.getCapacidadePasse()).append("\n")
+                .append("Habilidade: ").append(this.getHabilidade()).append("\n")
+                .append("Histórico de Equipas: ").append(this.getHist()).append("\n")
+                .append("Nome do Jogador: ").append(this.getNomeJ()).append("\n");
         return sb.toString();
    }
 

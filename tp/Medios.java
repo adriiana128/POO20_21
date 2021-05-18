@@ -17,11 +17,9 @@ public class Medios extends Jogador {
    /**
     * Construtor parametrizado 
     */
-   public Medios(long id, double velocidade, double resistencia,double destreza,
-   double impulsao, double jogoCabeca, double remate, double capacidadePasse,
-   double habilidade, List<Equipa> historicoEquipa, String nomeJ){
-       super(id, velocidade, resistencia, destreza, impulsao, jogoCabeca, remate, 
-       capacidadePasse, habilidade, historicoEquipa ,nomeJ);
+   public Medios(long id, double velocidade, double resistencia,double destreza,double impulsao, double jogoCabeca, double remate, double capacidadePasse,
+                 double habilidade, List<String> historicoEquipa, String nomeJ){
+       super(id, velocidade, resistencia, destreza, impulsao, jogoCabeca, remate,capacidadePasse, habilidade, historicoEquipa ,nomeJ);
    }
     
    /**
@@ -29,31 +27,6 @@ public class Medios extends Jogador {
     */
    public Medios(Medios m){
        super(m);
-   }
-    
-   //Getters
-   
-   //Setters
-   
-   /**
-    * Metodo Equals
-    */
-   public boolean equals(Object o){
-       if (this == o)
-           return true;
-        
-       if (o == null || this.getClass() != o.getClass())
-           return false;
-        
-       Medios m = (Medios) o;
-        
-       return super.equals(m);
-   }
-   
-   //Clone
-      
-   public Medios clone (){
-       return new Medios(this);    
    }
     
 }

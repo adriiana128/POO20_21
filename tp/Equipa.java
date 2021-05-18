@@ -1,8 +1,10 @@
+import java.util.Map;
+
 public class Equipa {
     
     //Variaveis de instância
     private String nomeE; //nome da equipa
-    private Jogador jogador; //jogadores de uma equipa
+    private Map<String,Jogador> jogador; //jogadores de uma equipa
     
 
     /**

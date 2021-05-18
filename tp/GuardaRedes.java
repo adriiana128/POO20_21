@@ -19,11 +19,9 @@ public class GuardaRedes extends Jogador {
    /**
     * Construtor parametrizado 
     */
-   public GuardaRedes(long id, double velocidade, double resistencia,double destreza,
-   double impulsao, double jogoCabeca, double remate, double capacidadePasse,
-   double habilidade, List<Equipa> historicoEquipa, String nomeJ, double elasticidade){
-       super(id, velocidade, resistencia, destreza, impulsao, jogoCabeca, remate, 
-       capacidadePasse, habilidade, historicoEquipa ,nomeJ);
+   public GuardaRedes(long id, double velocidade, double resistencia,double destreza,double impulsao, double jogoCabeca, double remate, double capacidadePasse,
+                      double habilidade, List<String> historicoEquipa, String nomeJ, double elasticidade){
+       super(id, velocidade, resistencia, destreza, impulsao, jogoCabeca, remate,capacidadePasse, habilidade, historicoEquipa ,nomeJ);
        this.elasticidade = elasticidade;
    }
     
@@ -51,21 +49,18 @@ public class GuardaRedes extends Jogador {
     * Metodo Equals
     */
    public boolean equals(Object o){
-       if (this == o)
-           return true;
-        
-       if (o == null || this.getClass() != o.getClass())
-           return false;
+       if (this == o) return true;
+       if (o == null || this.getClass() != o.getClass()) return false;
         
        GuardaRedes g = (GuardaRedes) o;
         
-       return super.equals(g) &&
-       this.elasticidade == g.getElasticidade();
+       return super.equals(g) && this.elasticidade == g.getElasticidade();
    }
    
    public String toString(){
-       StringBuilder sb = new StringBuilder(); 
-       sb.append("Elasticidade: " + this.getElasticidade() + "\n");
+       String str = super.toString();
+       StringBuilder sb = new StringBuilder();
+       sb.append(str).append("Elasticidade: ").append(this.getElasticidade()).append("\n");
        return sb.toString();
    }
    
