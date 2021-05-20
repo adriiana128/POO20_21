@@ -4,8 +4,8 @@ import java.util.stream.Collectors;
 
 public class Equipa {
     // Variaveis de instancia
-    private String nome;
-    private Set<Jogador> jogadores;
+    private String nome; // Nome da equipa
+    private Set<Jogador> jogadores; // jogadores que integram a equipa
 
     // Construtores
     public Equipa(){
@@ -15,7 +15,16 @@ public class Equipa {
 
     public Equipa(String nome, Set<Jogador> jog){
         this.nome = nome;
-        for(Jogador j : jog) this.jogadores.add(j.clone());
+        this.jogadores = new HashSet<>();
+        for(Jogador j : jog){
+            j.addEquipa(this.nome);
+            this.jogadores.add(j.clone());
+        }
+    }
+
+    public Equipa(String nome){
+        this.nome = nome;
+        this.jogadores = new HashSet<>();
     }
 
     public Equipa(Equipa e){
@@ -36,7 +45,13 @@ public class Equipa {
     }
 
     public void setJogadores(Set<Jogador> jogadores) {
+        for(Jogador j : jogadores) j.addEquipa(this.nome);
         this.jogadores = jogadores.stream().map(Jogador::clone).collect(Collectors.toSet());
+    }
+
+    public void adicionaJogador(Jogador j){
+        j.addEquipa(this.nome);
+        this.jogadores.add(j.clone());
     }
 
     @Override

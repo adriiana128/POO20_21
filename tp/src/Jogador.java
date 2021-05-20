@@ -2,7 +2,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-public class Jogador {
+public abstract class Jogador {
     //Variaveis de instância
     private String nome; // nome do jogador
     private int nrCamisola; // número da camisola do jogador
@@ -13,6 +13,7 @@ public class Jogador {
     private int cabeca; // jogo de cabeça do jogador
     private int remate; // remate do jogador
     private int passe; // capacidade de passe do jogador
+    private int finta; // capacidade de fintar do jogador
     private double habilidade; // habilidade geral do jogador
     private Set<String> historicoEquipas; // lista com nome das equipas às quais o jogador já pertenceu
 
@@ -27,11 +28,12 @@ public class Jogador {
         this.cabeca = -1;
         this.remate = -1;
         this.passe = -1;
+        this.finta = -1;
         this.habilidade = -1;
         this.historicoEquipas = new HashSet<>();
     }
 
-    public Jogador(String name, int nr, int vel, int res, int dest, int imp, int cab, int rem, int pass, double hab, Set<String> hist){
+    public Jogador(String name, int nr, int vel, int res, int dest, int imp, int cab, int rem, int pass, int fin, String eq){
         this.nome = name;
         this.nrCamisola = nr;
         this.velocidade = vel;
@@ -41,8 +43,10 @@ public class Jogador {
         this.cabeca = cab;
         this.remate = rem;
         this.passe = pass;
-        this.habilidade = hab;
-        setHistoricoEquipas(hist);
+        this.finta = fin;
+        this.habilidade = this.calculaHabilidade();
+        this.historicoEquipas = new HashSet<>();
+        this.historicoEquipas.add(eq);
     }
 
     public Jogador(Jogador j){
@@ -55,7 +59,9 @@ public class Jogador {
         this.cabeca = j.getCabeca();
         this.remate = j.getRemate();
         this.passe = j.getPasse();
+        this.finta = j.getFinta();
         this.habilidade = j.getHabilidade();
+        this.historicoEquipas = new HashSet<>();
         setHistoricoEquipas(j.getHistoricoEquipas());
     }
 
@@ -94,6 +100,10 @@ public class Jogador {
 
     public int getPasse() {
         return passe;
+    }
+
+    public int getFinta() {
+        return finta;
     }
 
     public double getHabilidade() {
@@ -140,12 +150,20 @@ public class Jogador {
         this.passe = passe;
     }
 
+    public void setFinta(int finta) {
+        this.finta = finta;
+    }
+
     public void setHabilidade(double habilidade) {
         this.habilidade = habilidade;
     }
 
     public void setHistoricoEquipas(Set<String> histEq) {
         for(String nome : histEq) this.historicoEquipas.add(nome);
+    }
+
+    public void addEquipa(String eq){
+        this.historicoEquipas.add(eq);
     }
 
     @Override
@@ -156,7 +174,7 @@ public class Jogador {
         return nrCamisola == jogador.nrCamisola && velocidade == jogador.velocidade
                 && resistencia == jogador.resistencia && destreza == jogador.destreza
                 && impulsao == jogador.impulsao && cabeca == jogador.cabeca && remate == jogador.remate
-                && passe == jogador.passe && Double.compare(jogador.habilidade, habilidade) == 0
+                && passe == jogador.passe && finta == jogador.finta && Double.compare(jogador.habilidade, habilidade) == 0
                 && Objects.equals(nome, jogador.nome) && Objects.equals(historicoEquipas, jogador.historicoEquipas);
     }
 
@@ -172,13 +190,13 @@ public class Jogador {
                 .append("Jogo de Cabeça: ").append(this.getCabeca()).append("\n")
                 .append("Remate: ").append(this.getRemate()).append("\n")
                 .append("Capacidade de Passe: ").append(this.getPasse()).append("\n")
+                .append("Capacidade de fintar: ").append(this.getFinta()).append("\n")
                 .append("Habilidade: ").append(this.getHabilidade()).append("\n")
                 .append("Histórico de Equipas: ").append(this.getHistoricoEquipas()).append("\n");
         return sb.toString();
     }
 
-    public Jogador clone(){
-        return new Jogador(this);
-    }
+    public abstract Jogador clone();
 
+    public abstract double calculaHabilidade();
 }

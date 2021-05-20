@@ -1,18 +1,14 @@
-import java.util.Set;
-
 public class Medio extends Jogador{
     // Variaveis de instancia
     private int recuperacao;
-
 
     // Construtores
     public Medio(){
         super();
         this.recuperacao = -1;
     }
-
-    public Medio(String name, int nr, int vel, int res, int dest, int imp, int cab, int rem, int pass, double hab, Set<String> hist, int rec){
-        super(name,nr,vel,res,dest,imp,cab,rem,pass,hab,hist);
+    public Medio(String name, int nr, int vel, int res, int dest, int imp, int cab, int rem, int pass, int fin, String eq, int rec){
+        super(name,nr,vel,res,dest,imp,cab,rem,pass,fin,eq);
         this.recuperacao = rec;
     }
 
@@ -42,11 +38,16 @@ public class Medio extends Jogador{
     public String toString() {
         String str = super.toString();
         StringBuffer sb = new StringBuffer();
-        sb.append(str).append("Recuperação: ").append((this.recuperacao)).append(("\n"));
+        sb.append(str).append("Recuperação: ").append(this.recuperacao).append("\n");
         return sb.toString();
     }
 
     public Medio clone(){
         return new Medio(this);
+    }
+
+    public double calculaHabilidade() {
+        return super.getVelocidade() + 0.7*super.getResistencia() + 2*super.getDestreza() + 0.6*super.getImpulsao()
+                + 0.3*super.getCabeca() + 0.4*super.getRemate() + 1.5*super.getPasse() + 0.6*super.getFinta() + 2*this.recuperacao;
     }
 }

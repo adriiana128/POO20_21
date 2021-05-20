@@ -1,6 +1,3 @@
-import java.util.Objects;
-import java.util.Set;
-
 public class Lateral extends Jogador{
     //Variaveis de instância
     private int cruzamento;
@@ -11,8 +8,8 @@ public class Lateral extends Jogador{
         this.cruzamento = -1;
     }
 
-    public Lateral(String name, int nr, int vel, int res, int dest, int imp, int cab, int rem, int pass, double hab, Set<String> hist, int cruz){
-        super(name,nr,vel,res,dest,imp,cab,rem,pass,hab,hist);
+    public Lateral(String name, int nr, int vel, int res, int dest, int imp, int cab, int rem, int pass, int fin, String eq, int cruz){
+        super(name,nr,vel,res,dest,imp,cab,rem,pass,fin,eq);
         this.cruzamento = cruz;
     }
 
@@ -48,6 +45,11 @@ public class Lateral extends Jogador{
 
     public Lateral clone(){
         return new Lateral(this);
+    }
+
+    public double calculaHabilidade() {
+        return 0.8*super.getVelocidade() + 0.9*super.getResistencia() + super.getDestreza() + 0.6*super.getImpulsao()
+                + 0.4*super.getCabeca() + 0.7*super.getRemate() + 0.8*super.getPasse() + 0.6*super.getFinta() + 2*this.cruzamento;
     }
 }
 
