@@ -6,11 +6,13 @@ public class Equipa {
     // Variaveis de instancia
     private String nome; // Nome da equipa
     private Set<Jogador> jogadores; // jogadores que integram a equipa
+    private double habilidadeGlobal; // habilidade total da equipa
 
     // Construtores
     public Equipa(){
         this.nome = "n/a";
         this.jogadores = new HashSet<>();
+        this.habilidadeGlobal = 0;
     }
 
     public Equipa(String nome, Set<Jogador> jog){
@@ -20,16 +22,23 @@ public class Equipa {
             j.addEquipa(this.nome);
             this.jogadores.add(j.clone());
         }
+        this.atualizaHabilidade();
     }
 
     public Equipa(String nome){
         this.nome = nome;
         this.jogadores = new HashSet<>();
+        this.habilidadeGlobal = 0;
+    }
+
+    public void atualizaHabilidade(){
+        for(Jogador j : this.jogadores) this.habilidadeGlobal += j.getHabilidade();
     }
 
     public Equipa(Equipa e){
         this.nome = e.getNome();
         setJogadores(e.getJogadores());
+        this.habilidadeGlobal = e.getHabilidadeGlobal();
     }
 
     public String getNome() {
@@ -47,11 +56,21 @@ public class Equipa {
     public void setJogadores(Set<Jogador> jogadores) {
         for(Jogador j : jogadores) j.addEquipa(this.nome);
         this.jogadores = jogadores.stream().map(Jogador::clone).collect(Collectors.toSet());
+        this.atualizaHabilidade();
+    }
+
+    public double getHabilidadeGlobal() {
+        return habilidadeGlobal;
+    }
+
+    public void setHabilidadeGlobal(double habilidadeGlobal) {
+        this.habilidadeGlobal = habilidadeGlobal;
     }
 
     public void adicionaJogador(Jogador j){
         j.addEquipa(this.nome);
         this.jogadores.add(j.clone());
+        this.atualizaHabilidade();
     }
 
     @Override

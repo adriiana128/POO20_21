@@ -1,5 +1,3 @@
-import java.util.Set;
-
 public class GuardaRedes extends Jogador{
 
     //Variaveis de instância
