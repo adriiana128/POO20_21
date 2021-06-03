@@ -12,8 +12,8 @@ public class GuardaRedes extends Jogador{
         this.defesa = -1;
     }
 
-    public GuardaRedes(String name, int nr, int vel, int res, int dest, int imp, int cab, int rem, int pass, int fin, String eq, int elas, int def){
-        super(name,nr,vel,res,dest,imp,cab,rem,pass,fin,eq);
+    public GuardaRedes(String iD, String name, int nr, int vel, int res, int dest, int imp, int cab, int rem, int pass, int fin, String eq, int elas, int def){
+        super(iD,name,nr,vel,res,dest,imp,cab,rem,pass,fin,eq);
         this.elasticidade = elas;
         this.defesa = def;
     }

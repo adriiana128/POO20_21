@@ -8,8 +8,8 @@ public class Avancado extends Jogador{
         this.penalti = -1;
     }
 
-    public Avancado(String name, int nr, int vel, int res, int dest, int imp, int cab, int rem, int pass, int fin, String eq, int pen){
-        super(name,nr,vel,res,dest,imp,cab,rem,pass,fin,eq);
+    public Avancado(String iD, String name, int nr, int vel, int res, int dest, int imp, int cab, int rem, int pass, int fin, String eq, int pen){
+        super(iD,name,nr,vel,res,dest,imp,cab,rem,pass,fin,eq);
         this.penalti = pen;
     }
 

@@ -8,8 +8,8 @@ public class Defesa extends Jogador{
         this.marcacao = -1;
     }
 
-    public Defesa(String name, int nr, int vel, int res, int dest, int imp, int cab, int rem, int pass, int fin, String eq, int mar){
-        super(name,nr,vel,res,dest,imp,cab,rem,pass,fin,eq);
+    public Defesa(String iD, String name, int nr, int vel, int res, int dest, int imp, int cab, int rem, int pass, int fin, String eq, int mar){
+        super(iD,name,nr,vel,res,dest,imp,cab,rem,pass,fin,eq);
         this.marcacao = mar;
     }
 

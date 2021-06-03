@@ -4,6 +4,7 @@ import java.util.Set;
 
 public abstract class Jogador {
     //Variaveis de instância
+    private String id; //id do utilizador
     private String nome; // nome do jogador
     private int nrCamisola; // número da camisola do jogador
     private int velocidade; // velocidade do jogador
@@ -19,6 +20,7 @@ public abstract class Jogador {
 
     // Construtores
     public Jogador(){
+        this.id = "";
         this.nome = "n/a";
         this.nrCamisola = -1;
         this.velocidade = -1;
@@ -33,7 +35,8 @@ public abstract class Jogador {
         this.historicoEquipas = new HashSet<>();
     }
 
-    public Jogador(String name, int nr, int vel, int res, int dest, int imp, int cab, int rem, int pass, int fin, String eq){
+    public Jogador(String iD, String name, int nr, int vel, int res, int dest, int imp, int cab, int rem, int pass, int fin, String eq){
+        this.id = iD;
         this.nome = name;
         this.nrCamisola = nr;
         this.velocidade = vel;
@@ -50,6 +53,7 @@ public abstract class Jogador {
     }
 
     public Jogador(Jogador j){
+        this.id = j.getId();
         this.nome = j.getNome();
         this.nrCamisola = j.getNrCamisola();
         this.velocidade = j.getVelocidade();
@@ -66,6 +70,8 @@ public abstract class Jogador {
     }
 
     // Getters e Setters
+    public String getId() { return this.id; }
+
     public String getNome() {
         return nome;
     }
@@ -113,6 +119,8 @@ public abstract class Jogador {
     public Set<String> getHistoricoEquipas() {
         return new HashSet<>(this.historicoEquipas);
     }
+
+    public void setId(String id) { this.id = id; }
 
     public void setNome(String nome) {
         this.nome = nome;
@@ -171,9 +179,10 @@ public abstract class Jogador {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Jogador jogador = (Jogador) o;
-        return nrCamisola == jogador.nrCamisola && velocidade == jogador.velocidade
-                && resistencia == jogador.resistencia && destreza == jogador.destreza
-                && impulsao == jogador.impulsao && cabeca == jogador.cabeca && remate == jogador.remate
+        return Objects.equals(id, jogador.id) && nrCamisola == jogador.nrCamisola
+                && velocidade == jogador.velocidade && resistencia == jogador.resistencia
+                && destreza == jogador.destreza && impulsao == jogador.impulsao
+                && cabeca == jogador.cabeca && remate == jogador.remate
                 && passe == jogador.passe && finta == jogador.finta && Double.compare(jogador.habilidade, habilidade) == 0
                 && Objects.equals(nome, jogador.nome) && Objects.equals(historicoEquipas, jogador.historicoEquipas);
     }
@@ -181,7 +190,8 @@ public abstract class Jogador {
     @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
-        sb.append("Nº Jogador: ").append(nrCamisola).append("\n")
+        sb.append ("ID Jogador: ").append(id).append("\n")
+                .append("Nº Jogador: ").append(nrCamisola).append("\n")
                 .append("Nome do Jogador: ").append(this.getNome()).append("\n")
                 .append("Velocidade: ").append(this.getVelocidade()).append("\n")
                 .append("Resistência: ").append(this.getResistencia()).append("\n")

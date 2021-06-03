@@ -8,8 +8,8 @@ public class Lateral extends Jogador{
         this.cruzamento = -1;
     }
 
-    public Lateral(String name, int nr, int vel, int res, int dest, int imp, int cab, int rem, int pass, int fin, String eq, int cruz){
-        super(name,nr,vel,res,dest,imp,cab,rem,pass,fin,eq);
+    public Lateral(String iD, String name, int nr, int vel, int res, int dest, int imp, int cab, int rem, int pass, int fin, String eq, int cruz){
+        super(iD,name,nr,vel,res,dest,imp,cab,rem,pass,fin,eq);
         this.cruzamento = cruz;
     }
 
