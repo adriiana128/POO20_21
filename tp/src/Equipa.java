@@ -101,4 +101,10 @@ public class Equipa {
     public Equipa clone(){
         return new Equipa(this);
     }
+
+    // Parser para equipa
+    public static Equipa parse(String input){
+        String[] campos = input.split(",");
+        return new Equipa(campos[0]);
+    }
 }
