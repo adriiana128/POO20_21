@@ -191,7 +191,20 @@ public abstract class Jogador {
         return sb.toString();
     }
 
+    // Assinatura de método abstrato clone
     public abstract Jogador clone();
 
+    // Assinatura de método abstrato de cálculo da habilidade dos jogadores
     public abstract double calculaHabilidade();
+
+    // Método para verificar o tipo de jogador
+    public int tipoJogador(Jogador j){
+        int res = -1;
+        if (j instanceof Avancado) res = 1;
+        else if (j instanceof Defesa) res = 2;
+             else if (j instanceof GuardaRedes) res = 3;
+                  else if (j instanceof Lateral) res = 4;
+                       else if (j instanceof Medio) res = 5;
+        return res;
+    }
 }

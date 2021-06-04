@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class Parser {
     public static void parse() throws LinhaIncorretaException {
-        List<String> linhas = lerFicheiro("output.txt");
+        List<String> linhas = lerFicheiro("input.txt");
         Map<String, Equipa> equipas = new HashMap<>(); //nome, equipa
         Map<Integer, Jogador> jogadores = new HashMap<>(); //numero, jogador
         List<Jogo> jogos = new ArrayList<>();
@@ -53,22 +53,18 @@ public class Parser {
                     if (ultima == null) throw new LinhaIncorretaException(); //we need to insert the player into the team
                     ultima.adicionaJogador(j.clone()); //if no team was parsed previously, file is not well-formed
                     break;
-              //  case "Jogo":
-               //     Jogo jo = Jogo.parse(linhaPartida[1]);
-                 //   jogos.add(jo);
-                   // break;
+                case "Jogo":
+                    Jogo jo = Jogo.parse(linhaPartida[1]);
+                    jogos.add(jo);
+                    break;
                 default:
                     throw new LinhaIncorretaException();
 
             }
         }
         //debug
-        for (Equipa e: equipas.values()){
-            System.out.println(e.toString());
-        }
-        //for (Jogo jog: jogos){
-         //   System.out.println(jog.toString());
-        //}
+        for (Equipa e: equipas.values()){ System.out.println(e.toString()); }
+        for (Jogo jog: jogos){ System.out.println(jog.toString()); }
     }
 
     public static List<String> lerFicheiro(String nomeFich) {
