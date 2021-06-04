@@ -5,11 +5,11 @@ public class Avancado extends Jogador{
     // Construtores
     public Avancado(){
         super();
-        this.penalti = -1;
+        this.penalti = 0;
     }
 
-    public Avancado(String iD, String name, int nr, int vel, int res, int dest, int imp, int cab, int rem, int pass, int fin, String eq, int pen){
-        super(iD,name,nr,vel,res,dest,imp,cab,rem,pass,fin,eq);
+    public Avancado(String name, int nr, int vel, int res, int dest, int imp, int cab, int rem, int pass, int pen){
+        super(name,nr,vel,res,dest,imp,cab,rem,pass);
         this.penalti = pen;
     }
 
@@ -18,6 +18,7 @@ public class Avancado extends Jogador{
         this.penalti = a.getPenalti();
     }
 
+    // Getters e Setters
     public Avancado clone(){
         return new Avancado(this);
     }
@@ -30,6 +31,7 @@ public class Avancado extends Jogador{
         this.penalti = penalti;
     }
 
+    // Clone
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -39,16 +41,19 @@ public class Avancado extends Jogador{
         return penalti == avancado.penalti;
     }
 
+    // toString
     @Override
     public String toString() {
-        String str = super.toString();
+        String jog = super.toString();
+        String eq = super.toStringEquipas();
         StringBuffer sb = new StringBuffer();
-        sb.append(str).append("Penalti: ").append(this.penalti).append("\n");
+        sb.append(jog).append("Penalti: ").append(this.penalti).append(" | ").append(eq);
         return sb.toString();
     }
 
+    // Método para cálculo da habilidade de um avançado
     public double calculaHabilidade() {
         return super.getVelocidade() + 0.8*super.getResistencia() + 0.7*super.getDestreza() + super.getImpulsao()
-                + super.getCabeca() + super.getRemate() + 0.7*super.getPasse() + 2*super.getFinta() + 1.5*this.penalti;
+                + super.getCabeca() + super.getRemate() + 0.7*super.getPasse()+ 1.5*this.penalti;
     }
 }

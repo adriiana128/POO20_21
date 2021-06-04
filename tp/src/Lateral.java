@@ -5,11 +5,11 @@ public class Lateral extends Jogador{
     // Construtores
     public Lateral(){
         super();
-        this.cruzamento = -1;
+        this.cruzamento = 0;
     }
 
-    public Lateral(String iD, String name, int nr, int vel, int res, int dest, int imp, int cab, int rem, int pass, int fin, String eq, int cruz){
-        super(iD,name,nr,vel,res,dest,imp,cab,rem,pass,fin,eq);
+    public Lateral(String name, int nr, int vel, int res, int dest, int imp, int cab, int rem, int pass, int cruz){
+        super(name,nr,vel,res,dest,imp,cab,rem,pass);
         this.cruzamento = cruz;
     }
 
@@ -18,6 +18,7 @@ public class Lateral extends Jogador{
         this.cruzamento = l.getCruzamento();
     }
 
+    // Getters e Setters
     public int getCruzamento() {
         return cruzamento;
     }
@@ -26,6 +27,7 @@ public class Lateral extends Jogador{
         this.cruzamento = cruzamento;
     }
 
+    // Equals
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -35,21 +37,25 @@ public class Lateral extends Jogador{
         return cruzamento == lateral.cruzamento;
     }
 
+    // toString
     @Override
     public String toString() {
-        String str = super.toString();
+        String jog = super.toString();
+        String eq = super.toStringEquipas();
         StringBuffer sb = new StringBuffer();
-        sb.append(str).append("Cruzamento: ").append((this.cruzamento)).append(("\n"));
+        sb.append(jog).append("Cruzamento: ").append(this.cruzamento).append(" | ").append(eq);
         return sb.toString();
     }
 
+    // Clone
     public Lateral clone(){
         return new Lateral(this);
     }
 
+    // Método para cálculo da habilidade de um lateral
     public double calculaHabilidade() {
         return 0.8*super.getVelocidade() + 0.9*super.getResistencia() + super.getDestreza() + 0.6*super.getImpulsao()
-                + 0.4*super.getCabeca() + 0.7*super.getRemate() + 0.8*super.getPasse() + 0.6*super.getFinta() + 2*this.cruzamento;
+                + 0.4*super.getCabeca() + 0.7*super.getRemate() + 0.8*super.getPasse() + 2*this.cruzamento;
     }
 }
 

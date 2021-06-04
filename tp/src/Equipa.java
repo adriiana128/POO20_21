@@ -1,4 +1,5 @@
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -31,16 +32,13 @@ public class Equipa {
         this.habilidadeGlobal = 0;
     }
 
-    public void atualizaHabilidade(){
-        for(Jogador j : this.jogadores) this.habilidadeGlobal += j.getHabilidade();
-    }
-
     public Equipa(Equipa e){
         this.nome = e.getNome();
         setJogadores(e.getJogadores());
         this.habilidadeGlobal = e.getHabilidadeGlobal();
     }
 
+    // Getters e Setters
     public String getNome() {
         return nome;
     }
@@ -67,28 +65,38 @@ public class Equipa {
         this.habilidadeGlobal = habilidadeGlobal;
     }
 
+    // Método para atualizar a habilidade da equipa
+    public void atualizaHabilidade(){
+        for(Jogador j : this.jogadores) this.habilidadeGlobal += j.getHabilidade();
+    }
+
+    // Método para adicionar um jogador a uma equipa
     public void adicionaJogador(Jogador j){
         j.addEquipa(this.nome);
         this.jogadores.add(j.clone());
         this.atualizaHabilidade();
     }
 
+    // Equals
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Equipa equipa = (Equipa) o;
-        return this.nome.equals(equipa.getNome()) && this.jogadores.equals(equipa.getJogadores());
+        return this.habilidadeGlobal == equipa.habilidadeGlobal && this.nome.equals(equipa.nome)
+                && this.jogadores.equals(equipa.jogadores);
     }
 
+    // toString
     @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
-        String str = this.jogadores.toString();
-        sb.append("Equipa: ").append(nome).append("\n").append(str);
+        sb.append("Equipa: ").append(nome).append("\n");
+        for(Jogador jog : this.jogadores) sb.append(jog.toString());
         return sb.toString();
     }
 
+    // Clone
     public Equipa clone(){
         return new Equipa(this);
     }

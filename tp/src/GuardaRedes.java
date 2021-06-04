@@ -1,19 +1,17 @@
 public class GuardaRedes extends Jogador{
-
     //Variaveis de instância
     private int elasticidade; //elasticidade do GR
     private int defesa; // capacidade de defesa da baliza
 
     // Construtores
-
     public GuardaRedes(){
         super();
-        this.elasticidade = -1;
-        this.defesa = -1;
+        this.elasticidade = 0;
+        this.defesa = 0;
     }
 
-    public GuardaRedes(String iD, String name, int nr, int vel, int res, int dest, int imp, int cab, int rem, int pass, int fin, String eq, int elas, int def){
-        super(iD,name,nr,vel,res,dest,imp,cab,rem,pass,fin,eq);
+    public GuardaRedes(String name, int nr, int vel, int res, int dest, int imp, int cab, int rem, int pass, int elas, int def){
+        super(name,nr,vel,res,dest,imp,cab,rem,pass);
         this.elasticidade = elas;
         this.defesa = def;
     }
@@ -41,6 +39,7 @@ public class GuardaRedes extends Jogador{
         this.elasticidade = elasticidade;
     }
 
+    // Equals
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -50,21 +49,25 @@ public class GuardaRedes extends Jogador{
         return elasticidade == gr.elasticidade && defesa == gr.defesa;
     }
 
+    // toString
     @Override
     public String toString() {
-        String str = super.toString();
+        String jog = super.toString();
+        String eq = super.toStringEquipas();
         StringBuffer sb = new StringBuffer();
-        sb.append(str).append("Elasticidade: ").append(this.elasticidade).append("\n")
-                .append("Defesa: ").append(this.defesa).append("\n");
+        sb.append(jog).append("Elasticidade: ").append(this.elasticidade).append(" | ")
+                .append("Defesa: ").append(this.defesa).append(" | ").append(eq);
         return sb.toString();
     }
 
+    // Clone
     public GuardaRedes clone(){
         return new GuardaRedes(this);
     }
 
+    // Método para cálculo da habilidade de um guarda-redes
     public double calculaHabilidade() {
         return 0.2*super.getVelocidade() + 0.5*super.getResistencia() + 2*super.getDestreza() + 0.5*super.getImpulsao()
-                + 0.3*super.getCabeca() + 0.2*super.getRemate() + 0.8*super.getPasse() + 0.4*super.getFinta() + 2*this.elasticidade + 3*this.defesa;
+                + 0.3*super.getCabeca() + 0.2*super.getRemate() + 0.8*super.getPasse() + 2*this.elasticidade + 3*this.defesa;
     }
 }
