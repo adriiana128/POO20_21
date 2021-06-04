@@ -1,3 +1,4 @@
+import java.text.DecimalFormat;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -168,9 +169,10 @@ public abstract class Jogador {
     // toString
     @Override
     public String toString() {
+        DecimalFormat df2 = new DecimalFormat("#.##");
         StringBuffer sb = new StringBuffer();
-        sb.append("Nome: ").append(this.nome).append(" | ")
-                .append("#: ").append(this.nrCamisola).append(" | ")
+        sb.append("#").append(this.nrCamisola).append(" | ").append(this.nome).append(" | ")
+               // .append("#: ").append(this.nrCamisola).append(" | ")
                 .append("Velocidade: ").append(this.velocidade).append(" | ")
                 .append("Resistência: ").append(this.resistencia).append(" | ")
                 .append("Destreza: ").append(this.destreza).append(" | ")
@@ -178,7 +180,7 @@ public abstract class Jogador {
                 .append("Cabeça: ").append(this.cabeca).append(" | ")
                 .append("Remate: ").append(this.remate).append(" | ")
                 .append("Passe: ").append(this.passe).append(" | ")
-                .append("Habilidade: ").append(this.habilidade).append(" | ");
+                .append("Habilidade: ").append(df2.format(this.habilidade)).append(" | ");
         return sb.toString();
     }
 

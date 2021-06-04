@@ -1,7 +1,6 @@
-import java.util.HashSet;
-import java.util.Set;
-
 public class Teste {
-    public static void main(String[] args){
+    public static void main(String[] args) throws Exception{
+        Parser p = new Parser();
+        p.parse();
     }
 }

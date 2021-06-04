@@ -66,9 +66,9 @@ public class Parser {
         for (Equipa e: equipas.values()){
             System.out.println(e.toString());
         }
-        for (Jogo jog: jogos){
-            System.out.println(jog.toString());
-        }
+        //for (Jogo jog: jogos){
+         //   System.out.println(jog.toString());
+        //}
     }
 
     public static List<String> lerFicheiro(String nomeFich) {

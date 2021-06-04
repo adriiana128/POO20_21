@@ -1,3 +1,4 @@
+import java.text.DecimalFormat;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -90,9 +91,10 @@ public class Equipa {
     // toString
     @Override
     public String toString() {
+        DecimalFormat df2 = new DecimalFormat("#.##");
         StringBuffer sb = new StringBuffer();
         sb.append("Equipa: ").append(nome).append(" | ")
-          .append("Habilidade global: ").append(this.habilidadeGlobal).append("\n");
+          .append("Habilidade global: ").append(df2.format(this.habilidadeGlobal)).append("\n");
         for(Jogador jog : this.jogadores) sb.append(jog.toString());
         return sb.toString();
     }
