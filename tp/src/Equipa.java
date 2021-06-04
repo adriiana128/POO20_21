@@ -1,5 +1,4 @@
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -67,7 +66,8 @@ public class Equipa {
 
     // Método para atualizar a habilidade da equipa
     public void atualizaHabilidade(){
-        for(Jogador j : this.jogadores) this.habilidadeGlobal += j.getHabilidade();
+        this.habilidadeGlobal = 0;
+        for(Jogador j : this.jogadores) this.habilidadeGlobal += j.calculaHabilidade();
     }
 
     // Método para adicionar um jogador a uma equipa
@@ -91,7 +91,8 @@ public class Equipa {
     @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
-        sb.append("Equipa: ").append(nome).append("\n");
+        sb.append("Equipa: ").append(nome).append(" | ")
+          .append("Habilidade global: ").append(this.habilidadeGlobal).append("\n");
         for(Jogador jog : this.jogadores) sb.append(jog.toString());
         return sb.toString();
     }

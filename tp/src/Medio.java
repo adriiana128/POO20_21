@@ -39,9 +39,12 @@ public class Medio extends Jogador{
     // toString
     @Override
     public String toString() {
-        String str = super.toString();
+        String jog = super.toString();
+        String eq = super.toStringEquipas();
         StringBuffer sb = new StringBuffer();
-        sb.append(str).append("Recuperação: ").append(this.recuperacao).append("\n");
+        sb.append(jog).append("Recuperação: ").append(this.recuperacao).append(" | ")
+                .append("Posição: ").append(this.getClass().getSimpleName()).append(" | ")
+                .append(eq);
         return sb.toString();
     }
 
@@ -54,5 +57,19 @@ public class Medio extends Jogador{
     public double calculaHabilidade() {
         return super.getVelocidade() + 0.7*super.getResistencia() + 2*super.getDestreza() + 0.6*super.getImpulsao()
                 + 0.3*super.getCabeca() + 0.4*super.getRemate() + 1.5*super.getPasse() + 2*this.recuperacao;
+    }
+
+    // Parser para médios
+    public static Medio parse(String input){
+        String[] campos = input.split(",");
+        return new Medio(campos[0], Integer.parseInt(campos[1]),
+                Integer.parseInt(campos[2]),
+                Integer.parseInt(campos[3]),
+                Integer.parseInt(campos[4]),
+                Integer.parseInt(campos[5]),
+                Integer.parseInt(campos[6]),
+                Integer.parseInt(campos[7]),
+                Integer.parseInt(campos[8]),
+                Integer.parseInt(campos[9]));
     }
 }

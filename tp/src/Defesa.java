@@ -5,7 +5,7 @@ public class Defesa extends Jogador{
     // Construtores
     public Defesa(){
         super();
-        this.marcacao = -1;
+        this.marcacao = 0;
     }
 
     public Defesa(String name, int nr, int vel, int res, int dest, int imp, int cab, int rem, int pass, int mar){
@@ -48,7 +48,9 @@ public class Defesa extends Jogador{
         String jog = super.toString();
         String eq = super.toStringEquipas();
         StringBuffer sb = new StringBuffer();
-        sb.append(jog).append("Marcação: ").append(this.marcacao).append(" | ").append(eq);
+        sb.append(jog).append("Marcação: ").append(this.marcacao).append(" | ")
+                .append("Posição: ").append(this.getClass().getSimpleName()).append(" | ")
+                .append(eq);
         return sb.toString();
     }
 
@@ -56,5 +58,19 @@ public class Defesa extends Jogador{
     public double calculaHabilidade() {
         return 0.7*super.getVelocidade() + super.getResistencia() + 2*super.getDestreza() + 0.7*super.getImpulsao()
                 + 0.5*super.getCabeca() + 0.4*super.getRemate() + super.getPasse() + 2*this.marcacao;
+    }
+
+    // Parser para defesas
+    public static Defesa parse(String input){
+        String[] campos = input.split(",");
+        return new Defesa(campos[0], Integer.parseInt(campos[1]),
+                Integer.parseInt(campos[2]),
+                Integer.parseInt(campos[3]),
+                Integer.parseInt(campos[4]),
+                Integer.parseInt(campos[5]),
+                Integer.parseInt(campos[6]),
+                Integer.parseInt(campos[7]),
+                Integer.parseInt(campos[8]),
+                50);
     }
 }

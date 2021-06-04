@@ -43,7 +43,9 @@ public class Lateral extends Jogador{
         String jog = super.toString();
         String eq = super.toStringEquipas();
         StringBuffer sb = new StringBuffer();
-        sb.append(jog).append("Cruzamento: ").append(this.cruzamento).append(" | ").append(eq);
+        sb.append(jog).append("Cruzamento: ").append(this.cruzamento).append(" | ")
+                .append("Posição: ").append(this.getClass().getSimpleName()).append(" | ")
+                .append(eq);
         return sb.toString();
     }
 
@@ -56,6 +58,20 @@ public class Lateral extends Jogador{
     public double calculaHabilidade() {
         return 0.8*super.getVelocidade() + 0.9*super.getResistencia() + super.getDestreza() + 0.6*super.getImpulsao()
                 + 0.4*super.getCabeca() + 0.7*super.getRemate() + 0.8*super.getPasse() + 2*this.cruzamento;
+    }
+
+    // Parser para laterais
+    public static Lateral parse(String input){
+        String[] campos = input.split(",");
+        return new Lateral(campos[0], Integer.parseInt(campos[1]),
+                Integer.parseInt(campos[2]),
+                Integer.parseInt(campos[3]),
+                Integer.parseInt(campos[4]),
+                Integer.parseInt(campos[5]),
+                Integer.parseInt(campos[6]),
+                Integer.parseInt(campos[7]),
+                Integer.parseInt(campos[8]),
+                Integer.parseInt(campos[9]));
     }
 }
 

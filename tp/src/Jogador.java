@@ -169,7 +169,7 @@ public abstract class Jogador {
     @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
-        sb.append("Nome Jogador: ").append(this.nome).append(" | ")
+        sb.append("Nome: ").append(this.nome).append(" | ")
                 .append("#: ").append(this.nrCamisola).append(" | ")
                 .append("Velocidade: ").append(this.velocidade).append(" | ")
                 .append("Resistência: ").append(this.resistencia).append(" | ")
