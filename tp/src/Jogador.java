@@ -1,8 +1,9 @@
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.HashSet;
 import java.util.Set;
 
-public abstract class Jogador {
+public abstract class Jogador implements Serializable {
     //Variaveis de instância
     private String nome; // nome do jogador
     private int nrCamisola; // número da camisola do jogador

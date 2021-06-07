@@ -1,6 +1,7 @@
 public class Teste {
     public static void main(String[] args) throws Exception{
-        Parser p = new Parser();
-        p.parse();
+        Estado e = new Estado();
+        e.parse();
+
     }
 }

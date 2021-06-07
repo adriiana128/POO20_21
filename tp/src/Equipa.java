@@ -1,9 +1,10 @@
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class Equipa {
+public class Equipa implements Serializable {
     // Variaveis de instancia
     private String nome; // Nome da equipa
     private Set<Jogador> jogadores; // jogadores que integram a equipa

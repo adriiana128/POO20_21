@@ -1,7 +1,8 @@
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.*;
 
-public class Jogo {
+public class Jogo implements Serializable {
     // Variáveis de instância
     private String equipaCasa;
     private String equipaVisitante;
