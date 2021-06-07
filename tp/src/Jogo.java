@@ -1,6 +1,9 @@
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Jogo implements Serializable {
     // Variáveis de instância
@@ -9,7 +12,7 @@ public class Jogo implements Serializable {
     private int golosCasa;
     private int golosVisitante;
     private LocalDate dataJogo;
-    private List<Integer> jogadoresCasa; // (Nome da Equipa
+    private List<Integer> jogadoresCasa;
     private Map<Integer,Integer> substituicoesCasa;
     private List<Integer> jogadoresVisitante;
     private Map<Integer,Integer> substituicoesVisitante;
@@ -146,17 +149,16 @@ public class Jogo implements Serializable {
     // toString
     @Override
     public String toString() {
-        return "Jogo{" +
-                "equipaCasa='" + equipaCasa + '\'' +
-                ", equipaVisitante='" + equipaVisitante + '\'' +
-                ", golosCasa=" + golosCasa +
-                ", golosVisitante=" + golosVisitante +
-                ", dataJogo=" + dataJogo +
-                ", jogadoresCasa=" + jogadoresCasa +
-                ", substituicoesCasa=" + substituicoesCasa +
-                ", jogadoresVisitante=" + jogadoresVisitante +
-                ", substituicoesVisitante=" + substituicoesVisitante +
-                '}';
+        StringBuffer sb = new StringBuffer();
+        sb.append("\n********* JOGO *********\n")
+                .append("Data: ").append(dataJogo).append("\n")
+                .append("Equipas: ").append(equipaCasa).append(" vs ").append(equipaVisitante).append("\n")
+                .append("Resultado: "). append(golosCasa).append("-").append(golosVisitante).append("\n\n")
+                .append(equipaCasa).append("\nTitulares:\n").append(jogadoresCasa).append("\n")
+                .append("Banco:\n").append(substituicoesCasa).append("\n\n")
+                .append(equipaVisitante).append("\nTitulares:\n").append(jogadoresVisitante).append("\n")
+                .append("Banco:\n").append(substituicoesVisitante).append("\n");
+        return sb.toString();
     }
 
     // Parser para jogos

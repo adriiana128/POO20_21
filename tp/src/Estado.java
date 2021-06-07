@@ -60,28 +60,28 @@ public class Estado implements Serializable {
                     j = Defesa.parse(linhaPartida[1]);
                     if (ultima == null) throw new LinhaIncorretaException(); //we need to insert the player into the team
                     j.addEquipa(ultima.getNome());
-                    jogadores.put(j.getNome(), j);
+                    jogadores.put(j.getNome(), j.clone());
                     ultima.adicionaJogador(j.clone()); //if no team was parsed previously, file is not well-formed
                     break;
                 case "Medio":
                     j = Medio.parse(linhaPartida[1]);
                     if (ultima == null) throw new LinhaIncorretaException(); //we need to insert the player into the team
                     j.addEquipa(ultima.getNome());
-                    jogadores.put(j.getNome(), j);
+                    jogadores.put(j.getNome(), j.clone());
                     ultima.adicionaJogador(j.clone()); //if no team was parsed previously, file is not well-formed
                     break;
                 case "Lateral":
                     j = Lateral.parse(linhaPartida[1]);
                     if (ultima == null) throw new LinhaIncorretaException(); //we need to insert the player into the team
                     j.addEquipa(ultima.getNome());
-                    jogadores.put(j.getNome(), j);
+                    jogadores.put(j.getNome(), j.clone());
                     ultima.adicionaJogador(j.clone()); //if no team was parsed previously, file is not well-formed
                     break;
                 case "Avancado":
                     j = Avancado.parse(linhaPartida[1]);
                     if (ultima == null) throw new LinhaIncorretaException(); //we need to insert the player into the team
                     j.addEquipa(ultima.getNome());
-                    jogadores.put(j.getNome(), j);
+                    jogadores.put(j.getNome(), j.clone());
                     ultima.adicionaJogador(j.clone()); //if no team was parsed previously, file is not well-formed
                     break;
                 case "Jogo":
