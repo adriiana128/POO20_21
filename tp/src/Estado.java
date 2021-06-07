@@ -1,9 +1,11 @@
-import java.io.IOException;
-import java.io.Serializable;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Estado implements Serializable {
@@ -156,4 +158,40 @@ public class Estado implements Serializable {
         for (Jogo jog : this.jogos) sb.append(jog.toString());
         return sb.toString();
     }
+
+    // Método para adicionar um jogador ao estado atual da aplicação
+    public void addJogador(Jogador j){
+        this.jogadores.put(j.getNome(),j.clone());
+    }
+
+    // Método para adicionar um jogo ao estado atual da aplicação
+    public void addJogo(Jogo j){
+        this.jogos.add(j.clone());
+    }
+
+    // Método para adicionar uma equipa ao estado atual da aplicação
+    public void addEquipa(Equipa e){
+        this.equipas.put(e.getNome(),e.clone());
+    }
+
+    // Método para gravar o estado do jogo em ficheiro
+    public void saveEstado() throws IOException {
+        FileOutputStream file = new FileOutputStream("Estado.obj");
+        ObjectOutputStream out = new ObjectOutputStream(file);
+        out.writeObject(this);
+        out.flush();
+        out.close();
+    }
+
+    // Método para carregar o estado do jogo de um ficheiro
+    public void loadEstadoObj(String file) throws IOException, ClassNotFoundException {
+        FileInputStream f = new FileInputStream(file);
+        ObjectInputStream in = new ObjectInputStream(f);
+        Estado e = (Estado) in.readObject();
+        in.close();
+        setJogadores(e.getJogadores());
+        setJogos(e.getJogos());
+        setEquipas(e.getEquipas());
+    }
+
 }

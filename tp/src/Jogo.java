@@ -145,6 +145,11 @@ public class Jogo implements Serializable {
                 && substituicoesCasa.equals(jogo.substituicoesCasa) && jogadoresVisitante.equals(jogo.jogadoresVisitante)
                 && substituicoesVisitante.equals(jogo.substituicoesVisitante);
     }
+    public String toStringMap(Map<Integer,Integer> map){
+        StringBuffer sb = new StringBuffer();
+        for (Integer key : map.keySet()) sb.append(key + " --> " + map.get(key) + "\n");
+        return sb.toString();
+    }
 
     // toString
     @Override
@@ -155,9 +160,9 @@ public class Jogo implements Serializable {
                 .append("Equipas: ").append(equipaCasa).append(" vs ").append(equipaVisitante).append("\n")
                 .append("Resultado: "). append(golosCasa).append("-").append(golosVisitante).append("\n\n")
                 .append(equipaCasa).append("\nTitulares:\n").append(jogadoresCasa).append("\n")
-                .append("Banco:\n").append(substituicoesCasa).append("\n\n")
-                .append(equipaVisitante).append("\nTitulares:\n").append(jogadoresVisitante).append("\n")
-                .append("Banco:\n").append(substituicoesVisitante).append("\n");
+                .append("\nSubstituições:\n").append(toStringMap(substituicoesCasa)).append("\n\n")
+                .append(equipaVisitante).append("\nTitulares:\n").append(jogadoresVisitante).append("\n\n")
+                .append("Banco:\n").append(toStringMap(substituicoesVisitante)).append("\n");
         return sb.toString();
     }
 
@@ -186,5 +191,21 @@ public class Jogo implements Serializable {
         return new Jogo(campos[0], campos[1], Integer.parseInt(campos[2]), Integer.parseInt(campos[3]),
                 LocalDate.of(Integer.parseInt(data[0]), Integer.parseInt(data[1]), Integer.parseInt(data[2])),
                 jc, subsC, jf, subsF);
+    }
+
+    void efetuaSubstituicao(String nome, Integer out, Integer in) throws SubstituicaoInvalidaException{
+        if (nome.equals(this.equipaCasa)) {
+        if (!this.jogadoresCasa.contains(out) || this.substituicoesCasa.size() > 3) throw new SubstituicaoInvalidaException();
+            this.jogadoresCasa.remove(out);
+            this.jogadoresCasa.add(in);
+            this.substituicoesCasa.put(out,in);
+        }
+        else if (nome.equals(this.equipaVisitante)){
+            if (!this.jogadoresVisitante.contains(out) || this.substituicoesVisitante.size() > 3) throw new SubstituicaoInvalidaException();
+            this.jogadoresVisitante.remove(out);
+            this.jogadoresVisitante.add(in);
+            this.substituicoesVisitante.put(out,in);
+        }
+        else throw new SubstituicaoInvalidaException();
     }
 }
