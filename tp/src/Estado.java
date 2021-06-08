@@ -2,7 +2,10 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Estado implements Serializable {
@@ -13,8 +16,8 @@ public class Estado implements Serializable {
 
     // Construtores
     public Estado(){
-        this.equipas = new TreeMap<String,Equipa>(); //Nome, Equipa
-        this.jogadores = new TreeMap<String,Jogador>(); //Nome, Jogador
+        this.equipas = new HashMap<String,Equipa>(); //Nome, Equipa
+        this.jogadores = new HashMap<String,Jogador>(); //Nome, Jogador
         this.jogos = new ArrayList<Jogo>();
     }
 
@@ -35,8 +38,8 @@ public class Estado implements Serializable {
         List<String> linhas = lerFicheiro("logs.txt");
         Equipa ultima = null;
         Jogador j = null;
-        Map<String, Equipa> equipas = new TreeMap<String,Equipa>(); // Nome, Equipa
-        Map<String, Jogador> jogadores = new TreeMap<String,Jogador>(); // Nome, Jogador
+        Map<String, Equipa> equipas = new HashMap<>(); // Nome, Equipa
+        Map<String, Jogador> jogadores = new HashMap<>(); // Nome, Jogador
         List<Jogo> jogos = new ArrayList<>();
         String[] linhaPartida;
 
@@ -89,6 +92,7 @@ public class Estado implements Serializable {
                     break;
                 default:
                     throw new LinhaIncorretaException();
+
             }
         }
         setJogadores(jogadores);
@@ -105,23 +109,19 @@ public class Estado implements Serializable {
 
     // Getters e Setters
     public Map<String, Equipa> getEquipas() {
-        Map<String,Equipa> res = new TreeMap<>();
-        for(Equipa e : this.equipas.values()) res.put(e.getNome(),e.clone());
-        return res;
+        return this.equipas.values().stream().collect(Collectors.toMap(Equipa::getNome, Equipa::clone));
     }
 
     public void setEquipas(Map<String, Equipa> equipas) {
-        for(Equipa e : equipas.values()) this.equipas.put(e.getNome(),e.clone());
+        this.equipas = equipas.values().stream().collect(Collectors.toMap(Equipa::getNome,Equipa::clone));
     }
 
     public Map<String, Jogador> getJogadores() {
-        Map<String,Jogador> res = new TreeMap<>();
-        for(Jogador j : this.jogadores.values()) res.put(j.getNome(),j.clone());
-        return res;
+        return jogadores.values().stream().collect(Collectors.toMap(Jogador::getNome, Jogador::clone));
     }
 
     public void setJogadores(Map<String, Jogador> jogadores) {
-        for(Jogador j : jogadores.values()) this.jogadores.put(j.getNome(),j.clone());
+        this.jogadores = jogadores.values().stream().collect(Collectors.toMap(Jogador::getNome, Jogador::clone));
     }
 
     public List<Jogo> getJogos() {

@@ -55,26 +55,26 @@ public class Controlador {
             inicial.executa();
             switch (inicial.getOpcao()) {
                 case 1:
-                    Menu.limpa();
+                    inicial.limpa();
                     runJogadores(); // incompleto
                     break;
                 case 2:
-                    Menu.limpa();
+                    inicial.limpa();
                     System.out.println("equipa"); // incompleto
                     break;
                 case 3:
-                    Menu.limpa();
+                    inicial.limpa();
                     System.out.println("jogo");// incompleto
                     break;
                 case 4:
                     this.estado.loadEstadoObj("Estado.obj");
                     break;
                 case 5:
-                    Menu.limpa();
+                    inicial.limpa();
                     this.estado.saveEstado();
                     break;
                 case 6:
-                    Menu.limpa();
+                    inicial.limpa();
                     try{
                         this.estado.parse();
                     } catch (LinhaIncorretaException e) {
@@ -82,7 +82,7 @@ public class Controlador {
                     }
                     break;
                 case 0:
-                    Menu.limpa();
+                    inicial.limpa();
                     System.out.println("\t\tSaindo da aplicação.");
                     break;
                 default:
@@ -100,80 +100,31 @@ public class Controlador {
             jogadores.executa();
             switch (jogadores.getOpcao()) {
                 case 1:
-                    Menu.limpa();
-                    runCriaJogador(); // incompleto
+                    jogadores.limpa();
+                    System.out.println("jogador");
                     break;
                 case 2:
-                    Menu.limpa();
+                    jogadores.limpa();
                     System.out.println("equipa");
                     break;
                 case 3:
-                    Menu.limpa();
+                    jogadores.limpa();
                     System.out.println("jogo");
                     break;
                 case 4:
-                    Menu.limpa();
+                    jogadores.limpa();
                     System.out.println("ler logs");
                     break;
                 case 5:
-                    Menu.limpa();
+                    jogadores.limpa();
                     System.out.println("guardar estado");
                     break;
                 case 0:
-                    Menu.limpa();
+                    jogadores.limpa();
                     break;
                 default:
                     break;
             }
         } while (jogadores.getOpcao() != 0);
-    }
-
-    public void runCriaJogador() { // incompleto
-        String[] ops = {
-                "Avançado", "Defesa", "Guarda-Redes","Lateral", "Médio"
-        };
-        Menu criaJogadores = new Menu(ops);
-        Jogador j;
-
-        do {
-            criaJogadores.executa();
-            switch (criaJogadores.getOpcao()) {
-                case 1:
-                    Menu.limpa();
-                    j = Jogador.criaJogador(1);
-                    this.estado.addJogador(j);
-                    for (Jogador x : this.estado.getJogadores().values()) System.out.print(x.toString());
-                    break;
-                case 2:
-                    Menu.limpa();
-                    j = Jogador.criaJogador(2);
-                    this.estado.addJogador(j);
-                    for (Jogador x : this.estado.getJogadores().values()) System.out.print(x.toString());
-                    break;
-                case 3:
-                    Menu.limpa();
-                    j = Jogador.criaJogador(3);
-                    this.estado.addJogador(j);
-                    for (Jogador x : this.estado.getJogadores().values()) System.out.print(x.toString());
-                    break;
-                case 4:
-                    Menu.limpa();
-                    j = Jogador.criaJogador(4);
-                    this.estado.addJogador(j);
-                    for (Jogador x : this.estado.getJogadores().values()) System.out.print(x.toString());
-                    break;
-                case 5:
-                    Menu.limpa();
-                    j = Jogador.criaJogador(5);
-                    this.estado.addJogador(j);
-                    for (Jogador x : this.estado.getJogadores().values()) System.out.print(x.toString());
-                    break;
-                case 0:
-                    Menu.limpa();
-                    break;
-                default:
-                    break;
-            }
-        } while (criaJogadores.getOpcao() != 0);
     }
 }

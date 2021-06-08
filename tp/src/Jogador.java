@@ -1,7 +1,6 @@
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.HashSet;
-import java.util.Scanner;
 import java.util.Set;
 
 public abstract class Jogador implements Serializable {
@@ -209,29 +208,4 @@ public abstract class Jogador implements Serializable {
                        else if (j instanceof Medio) res = 5;
         return res;
     }
-
-    // Método genérico para criar Jogadores parametrizados
-    public static Jogador criaJogador(int tipo){ // incompleto -- falta ler os inputs e colocar os construtores paramterizados
-        Scanner in = new Scanner(System.in);
-        Jogador j = null;
-        switch (tipo){
-            case 1:
-                j = new Avancado();
-                break;
-            case 2:
-                j = new Defesa();
-                break;
-            case 3:
-                j = new GuardaRedes();
-                break;
-            case 4:
-                j = new Lateral();
-                break;
-            case 5:
-                j = new Medio();
-                break;
-        }
-        return j;
-    }
 }
-
