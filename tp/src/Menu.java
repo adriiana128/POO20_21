@@ -59,7 +59,7 @@ public class Menu {
     }
 
     // Método para limpar o ecrã
-    public void limpa(){
+    public static void  limpa(){
         for(int i = 0; i < 60; i++) System.out.println();
     }
 }
