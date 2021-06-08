@@ -193,7 +193,8 @@ public class Jogo implements Serializable {
                 jc, subsC, jf, subsF);
     }
 
-    void efetuaSubstituicao(String nome, Integer out, Integer in) throws SubstituicaoInvalidaException{
+    // Método para efetuar as substituições de jogadores
+    public void efetuaSubstituicao(String nome, Integer out, Integer in) throws SubstituicaoInvalidaException{
         if (nome.equals(this.equipaCasa)) {
         if (!this.jogadoresCasa.contains(out) || this.substituicoesCasa.size() > 3) throw new SubstituicaoInvalidaException();
             this.jogadoresCasa.remove(out);

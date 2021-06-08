@@ -35,7 +35,7 @@ public class Estado implements Serializable {
 
     // Leitura do ficheiro de inicialização do jogo
     public void parse() throws LinhaIncorretaException {
-        List<String> linhas = lerFicheiro("input.txt");
+        List<String> linhas = lerFicheiro("logs.txt");
         Equipa ultima = null;
         Jogador j = null;
         Map<String, Equipa> equipas = new HashMap<>(); // Nome, Equipa
@@ -53,38 +53,38 @@ public class Estado implements Serializable {
                     break;
                 case "Guarda-Redes":
                     j = GuardaRedes.parse(linhaPartida[1]);
-                    if (ultima == null) throw new LinhaIncorretaException(); //we need to insert the player into the team
+                    if (ultima == null) throw new LinhaIncorretaException();
                     j.addEquipa(ultima.getNome());
                     jogadores.put(j.getNome(), j.clone());
-                    ultima.adicionaJogador(j.clone()); //if no team was parsed previously, file is not well-formed
+                    ultima.adicionaJogador(j.clone());
                     break;
                 case "Defesa":
                     j = Defesa.parse(linhaPartida[1]);
-                    if (ultima == null) throw new LinhaIncorretaException(); //we need to insert the player into the team
+                    if (ultima == null) throw new LinhaIncorretaException();
                     j.addEquipa(ultima.getNome());
                     jogadores.put(j.getNome(), j.clone());
-                    ultima.adicionaJogador(j.clone()); //if no team was parsed previously, file is not well-formed
+                    ultima.adicionaJogador(j.clone());
                     break;
                 case "Medio":
                     j = Medio.parse(linhaPartida[1]);
-                    if (ultima == null) throw new LinhaIncorretaException(); //we need to insert the player into the team
+                    if (ultima == null) throw new LinhaIncorretaException();
                     j.addEquipa(ultima.getNome());
                     jogadores.put(j.getNome(), j.clone());
-                    ultima.adicionaJogador(j.clone()); //if no team was parsed previously, file is not well-formed
+                    ultima.adicionaJogador(j.clone());
                     break;
                 case "Lateral":
                     j = Lateral.parse(linhaPartida[1]);
-                    if (ultima == null) throw new LinhaIncorretaException(); //we need to insert the player into the team
+                    if (ultima == null) throw new LinhaIncorretaException();
                     j.addEquipa(ultima.getNome());
                     jogadores.put(j.getNome(), j.clone());
-                    ultima.adicionaJogador(j.clone()); //if no team was parsed previously, file is not well-formed
+                    ultima.adicionaJogador(j.clone());
                     break;
                 case "Avancado":
                     j = Avancado.parse(linhaPartida[1]);
-                    if (ultima == null) throw new LinhaIncorretaException(); //we need to insert the player into the team
+                    if (ultima == null) throw new LinhaIncorretaException();
                     j.addEquipa(ultima.getNome());
                     jogadores.put(j.getNome(), j.clone());
-                    ultima.adicionaJogador(j.clone()); //if no team was parsed previously, file is not well-formed
+                    ultima.adicionaJogador(j.clone());
                     break;
                 case "Jogo":
                     Jogo jo = Jogo.parse(linhaPartida[1]);
@@ -183,6 +183,16 @@ public class Estado implements Serializable {
         out.close();
     }
 
+    // Método para remover um jogador
+    public void removeJogador(String nome){
+        this.jogadores.remove(nome);
+    }
+
+    // Método para remover uma equipa
+    public void removeEquipa(String nome){
+        this.equipas.remove(nome);
+    }
+
     // Método para carregar o estado do jogo de um ficheiro
     public void loadEstadoObj(String file) throws IOException, ClassNotFoundException {
         FileInputStream f = new FileInputStream(file);
@@ -193,5 +203,4 @@ public class Estado implements Serializable {
         setJogos(e.getJogos());
         setEquipas(e.getEquipas());
     }
-
 }
