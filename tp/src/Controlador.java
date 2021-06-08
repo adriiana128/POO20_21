@@ -2,7 +2,7 @@ import java.io.IOException;
 
 public class Controlador {
     // Variáveis de instância
-    private Estado estado;
+    private Estado estado; // estado da aplicação
 
     // Construtores
     public Controlador(){
@@ -48,32 +48,32 @@ public class Controlador {
 
     public void run() throws LinhaIncorretaException, IOException, ClassNotFoundException {
         String[] ops = {
-                "Jogadores", "Equipas", "Jogos","Guardar estado", "Carregar estado", "Carregar logs"
+                "Jogadores", "Equipas", "Jogos","Carregar estado de um ficheiro", "Guardar estado num ficheiro", "Carregar logs"
         };
         Menu inicial = new Menu(ops);
         do {
             inicial.executa();
             switch (inicial.getOpcao()) {
-                case 1:
+                case 1: // Jogadores
                     inicial.limpa();
                     runJogadores(); // incompleto
                     break;
-                case 2:
+                case 2: // Equipas
                     inicial.limpa();
                     System.out.println("equipa"); // incompleto
                     break;
-                case 3:
+                case 3: // Jogos
                     inicial.limpa();
                     System.out.println("jogo");// incompleto
                     break;
-                case 4:
+                case 4: // Carregar estado de um ficheiro
                     this.estado.loadEstadoObj("Estado.obj");
                     break;
-                case 5:
+                case 5: // Guardar estado num ficheiro
                     inicial.limpa();
                     this.estado.saveEstado();
                     break;
-                case 6:
+                case 6: // Carregar logs
                     inicial.limpa();
                     try{
                         this.estado.parse();
@@ -93,31 +93,63 @@ public class Controlador {
 
     public void runJogadores() { // incompleto
         String[] ops = {
-                "Adicionar jogador", "Remover jogador", "Consultar todos os jogadores","Consultar um jogador", "Calcular habilidade de um jogador"
+                "Adicionar jogador", "Remover jogador", "Consultar todos os jogadores", "Calcular habilidade de um jogador"
         };
         Menu jogadores = new Menu(ops);
         do {
             jogadores.executa();
             switch (jogadores.getOpcao()) {
-                case 1:
+                case 1: // Adicionar jogador
                     jogadores.limpa();
-                    System.out.println("jogador");
+                    runAddJog();
+                    // incompleto
                     break;
-                case 2:
+                case 2: // Remover jogador
                     jogadores.limpa();
-                    System.out.println("equipa");
+                    // incompleto
                     break;
-                case 3:
+                case 3: // Consultar todos os jogadores
                     jogadores.limpa();
-                    System.out.println("jogo");
+                    for(Jogador j : this.estado.getJogadores().values()) System.out.print(j.toString());
                     break;
-                case 4:
+                case 4: // Calcular habilidade de um jogador
                     jogadores.limpa();
-                    System.out.println("ler logs");
+                    // incompleto
                     break;
-                case 5:
+                case 0:
                     jogadores.limpa();
-                    System.out.println("guardar estado");
+                    break;
+                default:
+                    break;
+            }
+        } while (jogadores.getOpcao() != 0);
+    }
+
+    public void runAddJog() { // incompleto
+        String[] ops = {
+                "Avançado", "Defesa", "Guarda-Redes", "Lateral", "Médio"
+        };
+        Menu jogadores = new Menu(ops);
+        do {
+            jogadores.executa();
+            switch (jogadores.getOpcao()) {
+                case 1: // Avançado
+                    jogadores.limpa();
+                    // incompleto
+                    break;
+                case 2: // Defesa
+                    jogadores.limpa();
+                    // incompleto
+                    break;
+                case 3: // Guarda-Redes
+                    break;
+                case 4: // Lateral
+                    jogadores.limpa();
+                    // incompleto
+                    break;
+                case 5: // Médio
+                    jogadores.limpa();
+                    // incompleto
                     break;
                 case 0:
                     jogadores.limpa();

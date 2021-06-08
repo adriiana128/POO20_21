@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 
 public class Equipa implements Serializable {
     // Variaveis de instancia
-    private String nome; // Nome da equipa
+    private String nome; // nome da equipa
     private Set<Jogador> jogadores; // jogadores que integram a equipa
     private double habilidadeGlobal; // habilidade total da equipa
 

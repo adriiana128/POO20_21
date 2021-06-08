@@ -1,6 +1,6 @@
 public class GuardaRedes extends Jogador{
     //Variaveis de instância
-    private int elasticidade; //elasticidade do GR
+    private int elasticidade; // elasticidade do GR
     private int defesa; // capacidade de defesa da baliza
 
     // Construtores

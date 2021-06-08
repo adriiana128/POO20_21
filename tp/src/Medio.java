@@ -1,6 +1,6 @@
 public class Medio extends Jogador{
     // Variaveis de instancia
-    private int recuperacao;
+    private int recuperacao; // capacidade de recuperar a bola
 
     // Construtores
     public Medio(){

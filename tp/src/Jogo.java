@@ -7,15 +7,15 @@ import java.util.Map;
 
 public class Jogo implements Serializable {
     // Variáveis de instância
-    private String equipaCasa;
-    private String equipaVisitante;
-    private int golosCasa;
-    private int golosVisitante;
-    private LocalDate dataJogo;
-    private List<Integer> jogadoresCasa;
-    private Map<Integer,Integer> substituicoesCasa;
-    private List<Integer> jogadoresVisitante;
-    private Map<Integer,Integer> substituicoesVisitante;
+    private String equipaCasa; // nome da equipa da casa
+    private String equipaVisitante; // nome da equipa visitante
+    private int golosCasa; // golos marcados pela equipa da casa
+    private int golosVisitante; // golos marcados pela equipa de fora
+    private LocalDate dataJogo; // data do jogo
+    private List<Integer> jogadoresCasa; // jogadores da equipa de casa
+    private Map<Integer,Integer> substituicoesCasa; // substituições efetuadas pela equipa de casa
+    private List<Integer> jogadoresVisitante; // lista de jogadores da equipa de fora
+    private Map<Integer,Integer> substituicoesVisitante; // substituições efetuadas pela equipa de fora
 
     // Construtores
     public Jogo(){

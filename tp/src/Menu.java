@@ -5,7 +5,7 @@ import java.util.InputMismatchException;
 
 public class Menu {
     // variáveis de instância
-    private List<String> opcoes; // Lista com as opções disponíveis no menu
+    private List<String> opcoes; // lista com as opções disponíveis no menu
     private int op; // opção selecionada
 
     //Construtor

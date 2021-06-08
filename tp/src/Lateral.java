@@ -1,6 +1,6 @@
 public class Lateral extends Jogador{
     //Variaveis de instância
-    private int cruzamento;
+    private int cruzamento; // capacidade de efetuar cruzamentos
 
     // Construtores
     public Lateral(){

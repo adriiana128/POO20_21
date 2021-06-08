@@ -172,8 +172,7 @@ public abstract class Jogador implements Serializable {
     public String toString() {
         DecimalFormat df2 = new DecimalFormat("#.##");
         StringBuffer sb = new StringBuffer();
-        sb.append("#").append(this.nrCamisola).append(" | ").append(this.nome).append(" | ")
-               // .append("#: ").append(this.nrCamisola).append(" | ")
+        sb.append(this.nome).append(" | ")
                 .append("Velocidade: ").append(this.velocidade).append(" | ")
                 .append("Resistência: ").append(this.resistencia).append(" | ")
                 .append("Destreza: ").append(this.destreza).append(" | ")
