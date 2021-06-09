@@ -96,7 +96,7 @@ public class Equipa implements Serializable {
         StringBuffer sb = new StringBuffer();
         sb.append("Equipa: ").append(nome).append(" | ")
           .append("Habilidade global: ").append(df2.format(this.habilidadeGlobal)).append("\n");
-        for(Jogador jog : this.jogadores) sb.append(jog.toString());
+        for(Jogador jog : this.jogadores) sb.append(jog.toStringJogadorSimples()).append("\n");
         return sb.toString();
     }
 

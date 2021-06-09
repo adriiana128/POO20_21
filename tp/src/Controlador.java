@@ -62,7 +62,7 @@ public class Controlador {
                     break;
                 case 2: // Equipas
                     inicial.limpa();
-                    // incompleto
+                    runEquipa(); // incompleto
                     break;
                 case 3: // Jogos
                     inicial.limpa();
@@ -93,8 +93,70 @@ public class Controlador {
         } while (inicial.getOpcao() != 0);
     }
 
+    private void runEquipa() throws NullPointerException {
+        String[] ops = {
+                "Adicionar equipa", "Adicionar jogadores a uma equipa", "Consultar todas as equipas",
+                "Consultar uma equipa", "Calcular habilidade de uma equipa"
+        };
+        Menu equipa = new Menu(ops);
+        Scanner in = new Scanner(System.in);
+        String nomeEq = null;
+        String nomeJog = null;
+        Equipa eq = null;
+        Jogador j = null;
+        do {
+            equipa.executa();
+            switch (equipa.getOpcao()) {
+                case 1: // Adicionar equipa
+                    System.out.print("Inserir nome da Equipa: ");
+                    nomeEq = in.nextLine();
+                    eq = new Equipa(nomeEq);
+                    this.estado.addEquipa(eq);
+                    break;
+                case 2: // Adicionar jogadores a uma equipa
+                    System.out.print("Inserir nome da Equipa: ");
+                    nomeEq = in.nextLine();
+                    System.out.print("Inserir nome do Jogador: ");
+                    nomeJog = in.nextLine();
+                    if (this.estado.getEquipas().containsKey(nomeEq)){
+                        if (this.estado.getJogadores().containsKey(nomeJog)){
+                            eq = new Equipa(this.estado.getEquipas().get(nomeEq));
+                            eq.adicionaJogador(this.estado.getJogadores().get(nomeJog));
+                            this.estado.removeEquipa(nomeEq);
+                            this.estado.addEquipa(eq);
+                        }
+                        else System.out.println("Jogador inválido.");
+                    }
+                    else System.out.println("Equipa inválida.");
+                    break;
+                case 3: // Consultar todas as equipas
+                    for(Equipa e : this.estado.getEquipas().values()) System.out.println(e.toString());
+                    break;
+                case 4: // Consultar uma equipa
+                    equipa.limpa();
+                    System.out.print("Inserir nome da Equipa: ");
+                    nomeEq = in.nextLine();
+                    if (this.estado.getEquipas().containsKey(nomeEq))
+                        System.out.println(this.estado.getEquipas().get(nomeEq).toString());
+                    else System.out.println("Equipa inexistente.");
+                    break;
+                case 5: // Calcular habilidade de uma equipa
+                    equipa.limpa();
+                    System.out.print("Inserir nome da Equipa: ");
+                    nomeEq = in.nextLine();
+                    if (this.estado.getEquipas().containsKey(nomeEq))
+                        System.out.println("Habilidade: "+this.estado.getEquipas().get(nomeEq).getHabilidadeGlobal());
+                    else System.out.println("Equipa inexistente.");
+                    break;
+                default:
+                    equipa.limpa();
+                    break;
+            }
+        } while (equipa.getOpcao() != 0);
+    }
+
     // Execução do menu referente aos jogadores
-    public void runJogadores()throws NullPointerException { // incompleto
+    public void runJogadores() throws NullPointerException { // incompleto
         String[] ops = {
                 "Adicionar jogador", "Remover jogador", "Consultar todos os jogadores",
                 "Consultar um jogador", "Calcular habilidade de um jogador"
@@ -107,8 +169,7 @@ public class Controlador {
             switch (jogadores.getOpcao()) {
                 case 1: // Adicionar jogador
                     jogadores.limpa();
-                    runAddJog();
-                    // incompleto
+                    runAddJogador();
                     break;
                 case 2: // Remover jogador
                     jogadores.limpa();
@@ -146,7 +207,7 @@ public class Controlador {
     }
 
     // Execução do menu referente à adição de jogadores
-    public void runAddJog() { // incompleto
+    public void runAddJogador() throws NullPointerException { // incompleto
         String[] ops = {
                 "Avançado", "Defesa", "Guarda-Redes", "Lateral", "Médio"
         };
