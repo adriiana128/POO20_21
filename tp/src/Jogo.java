@@ -1,9 +1,9 @@
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 public class Jogo implements Serializable {
     // Variáveis de instância
@@ -12,9 +12,9 @@ public class Jogo implements Serializable {
     private int golosCasa; // golos marcados pela equipa da casa
     private int golosVisitante; // golos marcados pela equipa de fora
     private LocalDate dataJogo; // data do jogo
-    private List<Integer> jogadoresCasa; // jogadores da equipa de casa
+    private Set<Integer> jogadoresCasa; // jogadores da equipa de casa
     private Map<Integer,Integer> substituicoesCasa; // substituições efetuadas pela equipa de casa
-    private List<Integer> jogadoresVisitante; // lista de jogadores da equipa de fora
+    private Set<Integer> jogadoresVisitante; // lista de jogadores da equipa de fora
     private Map<Integer,Integer> substituicoesVisitante; // substituições efetuadas pela equipa de fora
     private int fimJogo; // Um jogo terminado tem esta variável com o valor 1
 
@@ -25,24 +25,24 @@ public class Jogo implements Serializable {
         this.golosCasa = 0;
         this.golosVisitante = 0;
         this.dataJogo = LocalDate.MIN;
-        this.jogadoresCasa = new ArrayList<>();
-        this.substituicoesCasa = new HashMap<>();
-        this.jogadoresVisitante = new ArrayList<>();
-        this.substituicoesVisitante = new HashMap<>();
+        this.jogadoresCasa = new TreeSet<>();
+        this.substituicoesCasa = new TreeMap<>();
+        this.jogadoresVisitante = new TreeSet<>();
+        this.substituicoesVisitante = new TreeMap<>();
         this.fimJogo = 0;
     }
 
-    public Jogo(String casa, String visitante, int golosC, int golosV, LocalDate dataJ, List<Integer> jCasa,
-                Map<Integer,Integer> subsC, List<Integer> jVis, Map<Integer,Integer> subsVis){
+    public Jogo(String casa, String visitante, int golosC, int golosV, LocalDate dataJ, Set<Integer> jCasa,
+                Map<Integer,Integer> subsC, Set<Integer> jVis, Map<Integer,Integer> subsVis){
         this.equipaCasa = casa;
         this.equipaVisitante = visitante;
         this.golosCasa = golosC;
         this.golosVisitante = golosV;
         this.dataJogo = dataJ;
-        this.jogadoresCasa = new ArrayList<>(jCasa);
-        this.substituicoesCasa = new HashMap<>(subsC);
-        this.jogadoresVisitante = new ArrayList<>(jVis);
-        this.substituicoesVisitante = new HashMap<>(subsVis);
+        this.jogadoresCasa = new TreeSet<>(jCasa);
+        this.substituicoesCasa = new TreeMap<>(subsC);
+        this.jogadoresVisitante = new TreeSet<>(jVis);
+        this.substituicoesVisitante = new TreeMap<>(subsVis);
         this.fimJogo = 1;
     }
 
@@ -100,36 +100,36 @@ public class Jogo implements Serializable {
         this.dataJogo = dataJogo;
     }
 
-    public List<Integer> getJogadoresCasa() {
-        return new ArrayList<>(jogadoresCasa);
+    public Set<Integer> getJogadoresCasa() {
+        return new TreeSet<>(jogadoresCasa);
     }
 
-    public void setJogadoresCasa(List<Integer> jogadoresCasa) {
-        this.jogadoresCasa = new ArrayList<>(jogadoresCasa);
+    public void setJogadoresCasa(Set<Integer> jogadoresCasa) {
+        this.jogadoresCasa = new TreeSet<>(jogadoresCasa);
     }
 
     public Map<Integer, Integer> getSubstituicoesCasa() {
-        return new HashMap<>(substituicoesCasa);
+        return new TreeMap<>(substituicoesCasa);
     }
 
     public void setSubstituicoesCasa(Map<Integer, Integer> substituicoesCasa) {
-        this.substituicoesCasa = new HashMap<>(substituicoesCasa);
+        this.substituicoesCasa = new TreeMap<>(substituicoesCasa);
     }
 
-    public List<Integer> getJogadoresVisitante() {
-        return new ArrayList<>(jogadoresVisitante);
+    public Set<Integer> getJogadoresVisitante() {
+        return new TreeSet<>(jogadoresVisitante);
     }
 
-    public void setJogadoresVisitante(List<Integer> jogadoresVisitante) {
-        this.jogadoresVisitante = new ArrayList<>(jogadoresVisitante);
+    public void setJogadoresVisitante(Set<Integer> jogadoresVisitante) {
+        this.jogadoresVisitante = new TreeSet<>(jogadoresVisitante);
     }
 
     public Map<Integer, Integer> getSubstituicoesVisitante() {
-        return new HashMap<>(substituicoesVisitante);
+        return new TreeMap<>(substituicoesVisitante);
     }
 
     public void setSubstituicoesVisitante(Map<Integer, Integer> substituicoesVisitante) {
-        this.substituicoesVisitante = new HashMap<>(substituicoesVisitante);
+        this.substituicoesVisitante = new TreeMap<>(substituicoesVisitante);
     }
 
     public int getFimJogo() {
@@ -182,10 +182,10 @@ public class Jogo implements Serializable {
     public static Jogo parse(String input){
         String[] campos = input.split(",");
         String[] data = campos[4].split("-");
-        List<Integer> jc = new ArrayList<>();
-        List<Integer> jf = new ArrayList<>();
-        Map<Integer, Integer> subsC = new HashMap<>();
-        Map<Integer, Integer> subsF = new HashMap<>();
+        Set<Integer> jc = new TreeSet<>();
+        Set<Integer> jf = new TreeSet<>();
+        Map<Integer, Integer> subsC = new TreeMap<>();
+        Map<Integer, Integer> subsF = new TreeMap<>();
         for (int i = 5; i < 16; i++){
             jc.add(Integer.parseInt(campos[i]));
         }
@@ -208,7 +208,7 @@ public class Jogo implements Serializable {
     // Método para efetuar as substituições de jogadores
     public void efetuaSubstituicao(String nome, Integer out, Integer in) throws SubstituicaoInvalidaException{
         if (nome.equals(this.equipaCasa)) {
-        if (!this.jogadoresCasa.contains(out) || this.substituicoesCasa.size() > 3) throw new SubstituicaoInvalidaException();
+            if (!this.jogadoresCasa.contains(out) || this.substituicoesCasa.size() > 3) throw new SubstituicaoInvalidaException();
             this.jogadoresCasa.remove(out);
             this.jogadoresCasa.add(in);
             this.substituicoesCasa.put(out,in);
@@ -220,5 +220,18 @@ public class Jogo implements Serializable {
             this.substituicoesVisitante.put(out,in);
         }
         else throw new SubstituicaoInvalidaException();
+    }
+
+    // Método para verificar se um jogador está em campo
+    public boolean presenteEmCampo(String nomeEquipa, int nrCamisola){
+        boolean res = false;
+        if (nomeEquipa.equals(this.equipaCasa)) {
+            if (this.jogadoresCasa.contains(nrCamisola)) res = true;
+        }
+        else if (nomeEquipa.equals(this.equipaVisitante)){
+            if (this.jogadoresVisitante.contains(nrCamisola)) res = true;
+        }
+        else System.out.println("Nome de Equipa inválido.");
+        return res;
     }
 }
