@@ -1,7 +1,6 @@
 import java.io.IOException;
 import java.time.DateTimeException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Scanner;
 
 public class Controlador {
@@ -101,9 +100,10 @@ public class Controlador {
     public void runJogos() {
         String[] ops = {
                 "Adicionar jogo","Consultar todos os jogos", "Consultar um jogo",
-                "Simular jogo"
+                "Determinar o resultado de um jogo", "Simular jogo"
         };
         Menu jogos = new Menu(ops);
+        Jogo jo;
         do {
             jogos.executa();
             switch(jogos.getOpcao()) {
@@ -119,7 +119,12 @@ public class Controlador {
                     jogos.limpa();
                     runConsultaJogo();
                     break;
-                case 4: // Simular um jogo
+                case 4: // Determinar o resultado de um jogo
+                    jogos.limpa();
+                    jo = runConsultaJogo();
+                    runResultado(jo); // incompleto
+                    break;
+                case 5: // Simular um jogo
                     jogos.limpa();
                     // incompleto
                     break;
@@ -128,10 +133,62 @@ public class Controlador {
                     break;
             }
         } while (jogos.getOpcao() != 0);
-
     }
 
-    public void runConsultaJogo() {
+    // Execução de info
+    private void runResultado(Jogo j) {
+        if(this.estado.getJogos().contains(j)) {
+            StringBuffer sb = new StringBuffer();
+            String nomeCasa;
+            String nomeVis;
+            Equipa eCasa;
+            Equipa eVis;
+            double habCasa = 0;
+            double habVis = 0;
+            if (j.getFimJogo() == 1) {
+                sb.append("** Resultado do jogo **\n")
+                        .append(j.getEquipaCasa()).append(" vs ").append(j.getEquipaVisitante()).append(": ")
+                        .append(j.getGolosCasa()).append("-").append(j.getGolosVisitante()).append("\n");
+                System.out.println(sb);
+            }
+            else {
+                nomeCasa = j.getEquipaCasa();
+                eCasa = this.estado.getEquipas().get(nomeCasa);
+                for (int i : j.getJogadoresCasa()) {
+                    for (Jogador jo : eCasa.getJogadores()) {
+                        if (jo.getNrCamisola() == i) habCasa += jo.calculaHabilidade();
+                    }
+                }
+                nomeVis = j.getEquipaCasa();
+                eVis = this.estado.getEquipas().get(nomeVis);
+                for (int i : j.getJogadoresVisitante()) {
+                    for (Jogador jo : eVis.getJogadores()) {
+                        if (jo.getNrCamisola() == i) habVis += jo.calculaHabilidade();
+                    }
+                }
+                j.setFimJogo();
+                if (habCasa > habVis) {
+                    j.setGolosCasa(2);
+                    j.setGolosVisitante(0);
+                }
+                else if (habCasa < habVis) {
+                    j.setGolosCasa(1);
+                    j.setGolosVisitante(2);
+                }
+                    else {
+                        j.setGolosCasa(1);
+                        j.setGolosVisitante(1);
+                    }
+                sb.append("** Resultado do jogo **\n")
+                        .append(j.getEquipaCasa()).append(" vs ").append(j.getEquipaVisitante()).append(": ")
+                        .append(j.getGolosCasa()).append("-").append(j.getGolosVisitante()).append("\n");
+                System.out.println(sb);
+            }
+        }
+    }
+
+    // Execução de menu que permite consultar um jogo
+    public Jogo runConsultaJogo() {
         Scanner in = new Scanner(System.in);
         Jogo jFim = null;
         String eqCasa;
@@ -156,6 +213,7 @@ public class Controlador {
         }
         if (jFim != null) System.out.println(jFim.toString());
         else System.out.println("Jogo inválido.");
+        return jFim;
     }
 
     // Execução de menu para criar um novo jogo
@@ -179,7 +237,7 @@ public class Controlador {
         System.out.print("Inserir nome da equipa visitante: ");
         eqVisitante = in.nextLine();
         if (this.estado.getEquipas().containsKey(eqCasa) && this.estado.getEquipas().containsKey(eqVisitante)) {
-            j.setDataJogo(LocalDate.of(Integer.parseInt(data[0]), Integer.parseInt(data[1]), Integer.parseInt(data[2])));
+            j.setDataJogo(d);
             j.setEquipaCasa(eqCasa);
             j.setJogadoresCasa(this.estado.convocaJogadores(eqCasa));
             j.setEquipaVisitante(eqVisitante);
