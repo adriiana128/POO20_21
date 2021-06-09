@@ -94,9 +94,15 @@ public class Equipa implements Serializable {
     public String toString() {
         DecimalFormat df2 = new DecimalFormat("#.##");
         StringBuffer sb = new StringBuffer();
-        sb.append("Equipa: ").append(nome).append(" | ")
-          .append("Habilidade global: ").append(df2.format(this.habilidadeGlobal)).append("\n");
+        sb.append("Equipa: ").append(nome).append("\n");
         for(Jogador jog : this.jogadores) sb.append(jog.toStringJogadorSimples()).append("\n");
+        return sb.toString();
+    }
+
+    public String toStringHabilidadeGlobal(){
+        DecimalFormat df2 = new DecimalFormat("#.##");
+        StringBuffer sb = new StringBuffer();
+        sb.append("Habilidade global da equipa: ").append(df2.format(this.habilidadeGlobal));
         return sb.toString();
     }
 

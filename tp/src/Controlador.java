@@ -62,7 +62,7 @@ public class Controlador {
                     break;
                 case 2: // Equipas
                     inicial.limpa();
-                    runEquipa(); // incompleto
+                    runEquipa();
                     break;
                 case 3: // Jogos
                     inicial.limpa();
@@ -145,7 +145,7 @@ public class Controlador {
                     System.out.print("Inserir nome da Equipa: ");
                     nomeEq = in.nextLine();
                     if (this.estado.getEquipas().containsKey(nomeEq))
-                        System.out.println("Habilidade: "+this.estado.getEquipas().get(nomeEq).getHabilidadeGlobal());
+                        System.out.println(this.estado.getEquipas().get(nomeEq).toStringHabilidadeGlobal());
                     else System.out.println("Equipa inexistente.");
                     break;
                 default:
