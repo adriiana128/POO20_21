@@ -93,6 +93,7 @@ public class Controlador {
         } while (inicial.getOpcao() != 0);
     }
 
+    // Execução do menu referente às equipas
     private void runEquipa() throws NullPointerException {
         String[] ops = {
                 "Adicionar equipa", "Adicionar jogadores a uma equipa", "Consultar todas as equipas",

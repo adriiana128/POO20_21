@@ -99,6 +99,7 @@ public class Equipa implements Serializable {
         return sb.toString();
     }
 
+    // toString para a habilidade global formatada
     public String toStringHabilidadeGlobal(){
         DecimalFormat df2 = new DecimalFormat("#.##");
         StringBuffer sb = new StringBuffer();
