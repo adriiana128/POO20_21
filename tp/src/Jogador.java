@@ -207,13 +207,13 @@ public abstract class Jogador implements Serializable {
     public abstract double calculaHabilidade();
 
     // Método para verificar o tipo de jogador
-    public int tipoJogador(Jogador j){
+    public int tipoJogador(){
         int res = -1;
-        if (j instanceof Avancado) res = 1;
-        else if (j instanceof Defesa) res = 2;
-             else if (j instanceof GuardaRedes) res = 3;
-                  else if (j instanceof Lateral) res = 4;
-                       else if (j instanceof Medio) res = 5;
+        if (this instanceof Avancado) res = 1;
+        else if (this instanceof Defesa) res = 2;
+             else if (this instanceof GuardaRedes) res = 3;
+                  else if (this instanceof Lateral) res = 4;
+                       else if (this instanceof Medio) res = 5;
         return res;
     }
 }

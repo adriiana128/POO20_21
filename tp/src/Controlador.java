@@ -1,4 +1,7 @@
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Controlador {
@@ -52,31 +55,31 @@ public class Controlador {
         String[] ops = {
                 "Jogadores", "Equipas", "Jogos","Carregar estado de um ficheiro", "Guardar estado num ficheiro", "Carregar logs"
         };
-        Menu inicial = new Menu(ops);
+        Menu principal = new Menu(ops);
         do {
-            inicial.executa();
-            switch (inicial.getOpcao()) {
+            principal.executa();
+            switch(principal.getOpcao()) {
                 case 1: // Jogadores
-                    inicial.limpa();
+                    principal.limpa();
                     runJogadores();
                     break;
                 case 2: // Equipas
-                    inicial.limpa();
+                    principal.limpa();
                     runEquipa();
                     break;
                 case 3: // Jogos
-                    inicial.limpa();
-                    // incompleto
+                    principal.limpa();
+                    runJogos(); // incompleto
                     break;
                 case 4: // Carregar estado de um ficheiro
                     this.estado.loadEstadoObj("Estado.obj");
                     break;
                 case 5: // Guardar estado num ficheiro
-                    inicial.limpa();
+                    principal.limpa();
                     this.estado.saveEstado();
                     break;
                 case 6: // Carregar logs
-                    inicial.limpa();
+                    principal.limpa();
                     try{
                         this.estado.parse();
                     } catch (LinhaIncorretaException e) {
@@ -84,13 +87,61 @@ public class Controlador {
                     }
                     break;
                 case 0:
-                    inicial.limpa();
+                    principal.limpa();
                     System.out.println("\t\tSaindo da aplicação.");
                     break;
                 default:
+                    principal.limpa();
                     break;
             }
-        } while (inicial.getOpcao() != 0);
+        } while (principal.getOpcao() != 0);
+    }
+
+    // Execução do menun referente aos jogos
+    private void runJogos() {
+        String[] ops = {
+                "Adicionar jogo","Consultar todos os jogos", "Consultar um jogo",
+                "Simular jogo"
+        };
+        Menu jogos = new Menu(ops);
+        Scanner in = new Scanner(System.in);
+        do {
+            jogos.executa();
+            switch(jogos.getOpcao()) {
+                case 1: // Adicionar jogo
+                    jogos.limpa();
+                    runCriaJogo();
+                    break;
+                case 2: // Consultar todos os jogos
+                    jogos.limpa();
+                    for (Jogo j : this.estado.getJogos()) System.out.println(j.toString());
+                    // incompleto
+                    break;
+                case 3: // Consultar um jogo
+                    jogos.limpa();
+                    // incompleto
+                    break;
+                case 4: // Simular um jogo
+                    jogos.limpa();
+                    // incompleto
+                    break;
+                default:
+                    jogos.limpa();
+                    break;
+            }
+        } while (jogos.getOpcao() != 0);
+
+    }
+
+    // Execução de menu para criar um novo jogo
+    private void runCriaJogo() {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Inserir data jogo segundo o formato YYYY-MM-DD: ");
+        String campos = in.nextLine();
+        String[] data = campos.split("-");
+        Jogo j = new Jogo();
+        j.setDataJogo(LocalDate.of(Integer.parseInt(data[0]),Integer.parseInt(data[1]),Integer.parseInt(data[2])));
+        this.estado.addJogo(j);
     }
 
     // Execução do menu referente às equipas
@@ -101,10 +152,9 @@ public class Controlador {
         };
         Menu equipa = new Menu(ops);
         Scanner in = new Scanner(System.in);
-        String nomeEq = null;
-        String nomeJog = null;
-        Equipa eq = null;
-        Jogador j = null;
+        String nomeEq;
+        String nomeJog;
+        Equipa eq;
         do {
             equipa.executa();
             switch (equipa.getOpcao()) {
@@ -164,7 +214,7 @@ public class Controlador {
         };
         Menu jogadores = new Menu(ops);
         Scanner in = new Scanner(System.in);
-        String nome = null;
+        String nome;
         do {
             jogadores.executa();
             switch (jogadores.getOpcao()) {
@@ -213,8 +263,7 @@ public class Controlador {
                 "Avançado", "Defesa", "Guarda-Redes", "Lateral", "Médio"
         };
         Menu jogadores = new Menu(ops);
-        Scanner in = new Scanner(System.in);
-        Jogador j = null;
+        Jogador j;
         String[] infoJog;
         int[] infoAdicional;
         do {
