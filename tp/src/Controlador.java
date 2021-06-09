@@ -181,7 +181,9 @@ public class Controlador {
         if (this.estado.getEquipas().containsKey(eqCasa) && this.estado.getEquipas().containsKey(eqVisitante)) {
             j.setDataJogo(LocalDate.of(Integer.parseInt(data[0]), Integer.parseInt(data[1]), Integer.parseInt(data[2])));
             j.setEquipaCasa(eqCasa);
+            j.setJogadoresCasa(this.estado.convocaJogadores(eqCasa));
             j.setEquipaVisitante(eqVisitante);
+            j.setJogadoresVisitante(this.estado.convocaJogadores(eqVisitante));
             this.estado.addJogo(j);
         }
         else System.out.println("As Equipas selecionadas não são válidas.");

@@ -2,10 +2,7 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Estado implements Serializable {
@@ -201,5 +198,34 @@ public class Estado implements Serializable {
         setJogadores(e.getJogadores());
         setJogos(e.getJogos());
         setEquipas(e.getEquipas());
+    }
+
+
+    // Método para convocar jogadores para um jogo
+    public Set<Integer> convocaJogadores(String nomeEquipa){
+        Set<Integer> res = new TreeSet<>();
+        Set<Jogador> jogadores;
+        Equipa e;
+        Jogador jogAdd = null;
+        int nrGR = 0;
+        int nrJogadores = 0;
+        if (this.equipas.containsKey(nomeEquipa)) {
+            e = this.equipas.get(nomeEquipa);
+            jogadores = e.getJogadores();
+            for (Jogador j : jogadores) {
+                if (nrJogadores < 11) {
+                    if (j.tipoJogador() == 3 && nrGR == 0) {
+                        res.add(j.getNrCamisola());
+                        nrGR++;
+                        nrJogadores++;
+                    }
+                    if (j.tipoJogador() != 3 && j.tipoJogador() != -1) {
+                        res.add(j.getNrCamisola());
+                        nrJogadores++;
+                    }
+                }
+            }
+        }
+        return res;
     }
 }
