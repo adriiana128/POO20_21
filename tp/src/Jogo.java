@@ -16,7 +16,6 @@ public class Jogo implements Serializable {
     private Map<Integer,Integer> substituicoesCasa; // substituições efetuadas pela equipa de casa
     private List<Integer> jogadoresVisitante; // lista de jogadores da equipa de fora
     private Map<Integer,Integer> substituicoesVisitante; // substituições efetuadas pela equipa de fora
-    private int fimJogo; // Um jogo terminado tem esta variável com o valor 1
 
     // Construtores
     public Jogo(){
@@ -29,7 +28,6 @@ public class Jogo implements Serializable {
         this.substituicoesCasa = new HashMap<>();
         this.jogadoresVisitante = new ArrayList<>();
         this.substituicoesVisitante = new HashMap<>();
-        this.fimJogo = 0;
     }
 
     public Jogo(String casa, String visitante, int golosC, int golosV, LocalDate dataJ, List<Integer> jCasa,
@@ -43,7 +41,6 @@ public class Jogo implements Serializable {
         this.substituicoesCasa = new HashMap<>(subsC);
         this.jogadoresVisitante = new ArrayList<>(jVis);
         this.substituicoesVisitante = new HashMap<>(subsVis);
-        this.fimJogo = 1;
     }
 
     public Jogo (Jogo j){
@@ -56,7 +53,6 @@ public class Jogo implements Serializable {
         setSubstituicoesCasa(j.getSubstituicoesCasa());
         setJogadoresVisitante(j.getJogadoresVisitante());
         setSubstituicoesVisitante(j.getSubstituicoesVisitante());
-        this.fimJogo = j.getFimJogo();
     }
 
     // Getters e Setters
@@ -130,14 +126,6 @@ public class Jogo implements Serializable {
 
     public void setSubstituicoesVisitante(Map<Integer, Integer> substituicoesVisitante) {
         this.substituicoesVisitante = new HashMap<>(substituicoesVisitante);
-    }
-
-    public int getFimJogo() {
-        return fimJogo;
-    }
-
-    public void setFimJogo() {
-        this.fimJogo = 1;
     }
 
     // Clone
