@@ -92,7 +92,6 @@ public class Estado implements Serializable {
                     break;
                 default:
                     throw new LinhaIncorretaException();
-
             }
         }
         setJogadores(jogadores);

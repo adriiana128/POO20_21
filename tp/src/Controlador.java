@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.util.Scanner;
 
 public class Controlador {
     // Variáveis de instância
@@ -46,6 +47,7 @@ public class Controlador {
         return this.estado.toString();
     }
 
+    // Execução do menu principal
     public void run() throws LinhaIncorretaException, IOException, ClassNotFoundException {
         String[] ops = {
                 "Jogadores", "Equipas", "Jogos","Carregar estado de um ficheiro", "Guardar estado num ficheiro", "Carregar logs"
@@ -56,15 +58,15 @@ public class Controlador {
             switch (inicial.getOpcao()) {
                 case 1: // Jogadores
                     inicial.limpa();
-                    runJogadores(); // incompleto
+                    runJogadores();
                     break;
                 case 2: // Equipas
                     inicial.limpa();
-                    System.out.println("equipa"); // incompleto
+                    // incompleto
                     break;
                 case 3: // Jogos
                     inicial.limpa();
-                    System.out.println("jogo");// incompleto
+                    // incompleto
                     break;
                 case 4: // Carregar estado de um ficheiro
                     this.estado.loadEstadoObj("Estado.obj");
@@ -91,11 +93,15 @@ public class Controlador {
         } while (inicial.getOpcao() != 0);
     }
 
-    public void runJogadores() { // incompleto
+    // Execução do menu referente aos jogadores
+    public void runJogadores()throws NullPointerException { // incompleto
         String[] ops = {
-                "Adicionar jogador", "Remover jogador", "Consultar todos os jogadores", "Calcular habilidade de um jogador"
+                "Adicionar jogador", "Remover jogador", "Consultar todos os jogadores",
+                "Consultar um jogador", "Calcular habilidade de um jogador"
         };
         Menu jogadores = new Menu(ops);
+        Scanner in = new Scanner(System.in);
+        String nome = null;
         do {
             jogadores.executa();
             switch (jogadores.getOpcao()) {
@@ -106,57 +112,160 @@ public class Controlador {
                     break;
                 case 2: // Remover jogador
                     jogadores.limpa();
-                    // incompleto
+                    System.out.print("Inserir nome do Jogador: ");
+                    nome = in.nextLine();
+                    if (this.estado.getJogadores().containsKey(nome))
+                        this.estado.removeJogador(nome);
+                    else System.out.println("Jogador inexistente.");
                     break;
                 case 3: // Consultar todos os jogadores
                     jogadores.limpa();
-                    for(Jogador j : this.estado.getJogadores().values()) System.out.print(j.toString());
+                    for(Jogador j : this.estado.getJogadores().values()) System.out.println(j.toStringJogadorSimples());
                     break;
-                case 4: // Calcular habilidade de um jogador
+                case 4: // Consultar um jogador
                     jogadores.limpa();
-                    // incompleto
+                    System.out.print("Inserir nome do Jogador: ");
+                    nome = in.nextLine();
+                    if (this.estado.getJogadores().containsKey(nome))
+                        System.out.println(this.estado.getJogadores().get(nome).toString());
+                    else System.out.println("Jogador inexistente.");
                     break;
-                case 0:
+                case 5: // Calcular habilidade de um jogador
                     jogadores.limpa();
+                    System.out.print("Inserir nome do Jogador: ");
+                    nome = in.nextLine();
+                    if (this.estado.getJogadores().containsKey(nome))
+                        System.out.println("Habilidade: "+this.estado.getJogadores().get(nome).getHabilidade());
+                    else System.out.println("Jogador inexistente.");
                     break;
                 default:
+                    jogadores.limpa();
                     break;
             }
         } while (jogadores.getOpcao() != 0);
     }
 
+    // Execução do menu referente à adição de jogadores
     public void runAddJog() { // incompleto
         String[] ops = {
                 "Avançado", "Defesa", "Guarda-Redes", "Lateral", "Médio"
         };
         Menu jogadores = new Menu(ops);
+        Scanner in = new Scanner(System.in);
+        Jogador j = null;
+        String[] infoJog;
+        int[] infoAdicional;
         do {
             jogadores.executa();
             switch (jogadores.getOpcao()) {
                 case 1: // Avançado
                     jogadores.limpa();
-                    // incompleto
+                    infoJog = scanInfoJogador();
+                    infoAdicional = scanInfoGenerica(1);
+                    j = new Avancado(infoJog[0],Integer.parseInt(infoJog[1]),Integer.parseInt(infoJog[2]),
+                            Integer.parseInt(infoJog[3]),Integer.parseInt(infoJog[4]),Integer.parseInt(infoJog[5]),
+                            Integer.parseInt(infoJog[6]),Integer.parseInt(infoJog[7]),Integer.parseInt(infoJog[8]),
+                            infoAdicional[0]);
+                    this.estado.addJogador(j);
                     break;
                 case 2: // Defesa
                     jogadores.limpa();
-                    // incompleto
+                    infoJog = scanInfoJogador();
+                    infoAdicional = scanInfoGenerica(2);
+                    j = new Defesa(infoJog[0],Integer.parseInt(infoJog[1]),Integer.parseInt(infoJog[2]),
+                            Integer.parseInt(infoJog[3]),Integer.parseInt(infoJog[4]),Integer.parseInt(infoJog[5]),
+                            Integer.parseInt(infoJog[6]),Integer.parseInt(infoJog[7]),Integer.parseInt(infoJog[8]),
+                            infoAdicional[0]);
+                    this.estado.addJogador(j);
                     break;
                 case 3: // Guarda-Redes
+                    jogadores.limpa();
+                    infoJog = scanInfoJogador();
+                    infoAdicional = scanInfoGenerica(3);
+                    j = new GuardaRedes(infoJog[0],Integer.parseInt(infoJog[1]),Integer.parseInt(infoJog[2]),
+                            Integer.parseInt(infoJog[3]),Integer.parseInt(infoJog[4]),Integer.parseInt(infoJog[5]),
+                            Integer.parseInt(infoJog[6]),Integer.parseInt(infoJog[7]),Integer.parseInt(infoJog[8]),
+                            infoAdicional[0],infoAdicional[1]);
+                    this.estado.addJogador(j);
                     break;
                 case 4: // Lateral
                     jogadores.limpa();
-                    // incompleto
+                    infoJog = scanInfoJogador();
+                    infoAdicional = scanInfoGenerica(4);
+                    j = new Lateral(infoJog[0],Integer.parseInt(infoJog[1]),Integer.parseInt(infoJog[2]),
+                            Integer.parseInt(infoJog[3]),Integer.parseInt(infoJog[4]),Integer.parseInt(infoJog[5]),
+                            Integer.parseInt(infoJog[6]),Integer.parseInt(infoJog[7]),Integer.parseInt(infoJog[8]),
+                            infoAdicional[0]);
+                    this.estado.addJogador(j);
                     break;
                 case 5: // Médio
                     jogadores.limpa();
-                    // incompleto
-                    break;
-                case 0:
-                    jogadores.limpa();
+                    infoJog = scanInfoJogador();
+                    infoAdicional = scanInfoGenerica(5);
+                    j = new Medio(infoJog[0],Integer.parseInt(infoJog[1]),Integer.parseInt(infoJog[2]),
+                            Integer.parseInt(infoJog[3]),Integer.parseInt(infoJog[4]),Integer.parseInt(infoJog[5]),
+                            Integer.parseInt(infoJog[6]),Integer.parseInt(infoJog[7]),Integer.parseInt(infoJog[8]),
+                            infoAdicional[0]);
+                    this.estado.addJogador(j);
                     break;
                 default:
+                    jogadores.limpa();
                     break;
             }
         } while (jogadores.getOpcao() != 0);
+    }
+
+    // Leitura de informação referente comum a todos os tipos de jogadores
+    public int[] scanInfoGenerica(int numero) {
+        int[] res = new int[3];
+        Scanner in = new Scanner(System.in);
+        if (numero == 1){ // Avançado
+            System.out.print("Inserir capacidade de marcação de penálti (0-100): ");
+            res[0] = in.nextInt();
+        }
+        if (numero == 2){ // Defesa
+            System.out.print("Inserir capacidade de marcação dos jogadores adversários (0-100): ");
+            res[0] = in.nextInt();
+        }
+        if (numero == 3){ // Guarda-Redes
+            System.out.print("Inserir elasticidade (0-100): ");
+            res[0] = in.nextInt();
+            System.out.print("Inserir capacidade de defesa (0-100): ");
+            res[1] = in.nextInt();
+        }
+        if (numero == 4){ // Lateral
+            System.out.print("Inserir capacidade de cruzamento (0-100): ");
+            res[0] = in.nextInt();
+        }
+        if (numero == 5){ // Medio
+            System.out.print("Inserir capacidade de marcação (0-100): ");
+            res[0] = in.nextInt();
+        }
+        return res;
+    }
+
+    // Leitura de informação específica de cada tipo de jogador
+    public String[] scanInfoJogador(){
+        String[] res = new String[9];
+        Scanner inPut = new Scanner(System.in);
+        System.out.print("Inserir nome do jogador: ");
+        res[0] = inPut.nextLine();
+        System.out.print("Inserir número da camisola: ");
+        res[1] = String.valueOf(inPut.nextInt());
+        System.out.print("Inserir velocidade (0-100): ");
+        res[2] = String.valueOf(inPut.nextInt());
+        System.out.print("Inserir resistência (0-100): ");
+        res[3] = String.valueOf(inPut.nextInt());
+        System.out.print("Inserir destreza (0-100): ");
+        res[4] = String.valueOf(inPut.nextInt());
+        System.out.print("Inserir impulsão (0-100): ");
+        res[5] = String.valueOf(inPut.nextInt());
+        System.out.print("Inserir jogo de cabeça (0-100): ");
+        res[6] = String.valueOf(inPut.nextInt());
+        System.out.print("Inserir capacidade de remate (0-100): ");
+        res[7] = String.valueOf(inPut.nextInt());
+        System.out.print("Inserir capacidade de passe (0-100): ");
+        res[8] = String.valueOf(inPut.nextInt());
+        return res;
     }
 }

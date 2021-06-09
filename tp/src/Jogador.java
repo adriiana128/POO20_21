@@ -179,8 +179,17 @@ public abstract class Jogador implements Serializable {
                 .append("Impulsão: ").append(this.impulsao).append(" | ")
                 .append("Cabeça: ").append(this.cabeca).append(" | ")
                 .append("Remate: ").append(this.remate).append(" | ")
-                .append("Passe: ").append(this.passe).append(" | ")
-                .append("Habilidade: ").append(df2.format(this.habilidade)).append(" | ");
+                .append("Passe: ").append(this.passe).append(" | ");
+        return sb.toString();
+    }
+
+    // toString para apresentação da informação básica do jogador
+    public String toStringJogadorSimples() {
+        DecimalFormat df2 = new DecimalFormat("#.##");
+        StringBuffer sb = new StringBuffer();
+        sb.append("#").append(nrCamisola).append(" | ")
+                .append(this.nome).append(" | ")
+                .append("Habilidade: ").append(df2.format(this.habilidade));
         return sb.toString();
     }
 
