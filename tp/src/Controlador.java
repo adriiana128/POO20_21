@@ -1,7 +1,5 @@
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
 public class Controlador {
@@ -98,7 +96,7 @@ public class Controlador {
     }
 
     // Execução do menun referente aos jogos
-    private void runJogos() {
+    public void runJogos() {
         String[] ops = {
                 "Adicionar jogo","Consultar todos os jogos", "Consultar um jogo",
                 "Simular jogo"
@@ -115,11 +113,10 @@ public class Controlador {
                 case 2: // Consultar todos os jogos
                     jogos.limpa();
                     for (Jogo j : this.estado.getJogos()) System.out.println(j.toString());
-                    // incompleto
                     break;
                 case 3: // Consultar um jogo
                     jogos.limpa();
-                    // incompleto
+                    runConsultaJogo();
                     break;
                 case 4: // Simular um jogo
                     jogos.limpa();
@@ -133,8 +130,29 @@ public class Controlador {
 
     }
 
+    public void runConsultaJogo() {
+        Scanner in = new Scanner(System.in);
+        Jogo jFim = null;
+        String eqCasa;
+        String eqVisitante;
+        System.out.print("Inserir data jogo segundo o formato YYYY-MM-DD: ");
+        String campos = in.nextLine();
+        String[] data = campos.split("-");
+        LocalDate d = LocalDate.of(Integer.parseInt(data[0]),Integer.parseInt(data[1]),Integer.parseInt(data[2]));
+        System.out.print("Inserir nome da equipa da casa: ");
+        eqCasa = in.nextLine();
+        System.out.print("Inserir nome da equipa visitante: ");
+        eqVisitante = in.nextLine();
+        for(Jogo j : this.estado.getJogos()){
+            if (j.getDataJogo().equals(d) && j.getEquipaCasa().equals(eqCasa) && j.getEquipaVisitante().equals(eqVisitante))
+                jFim = j;
+        }
+        if (jFim != null) System.out.println(jFim.toString());
+        else System.out.println("Jogo inválido.");
+    }
+
     // Execução de menu para criar um novo jogo
-    private void runCriaJogo() {
+    public void runCriaJogo() {
         Scanner in = new Scanner(System.in);
         System.out.println("Inserir data jogo segundo o formato YYYY-MM-DD: ");
         String campos = in.nextLine();
@@ -145,7 +163,7 @@ public class Controlador {
     }
 
     // Execução do menu referente às equipas
-    private void runEquipa() throws NullPointerException {
+    public void runEquipa() throws NullPointerException {
         String[] ops = {
                 "Adicionar equipa", "Adicionar jogadores a uma equipa", "Consultar todas as equipas",
                 "Consultar uma equipa", "Calcular habilidade de uma equipa"
