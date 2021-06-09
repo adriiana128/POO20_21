@@ -1,5 +1,7 @@
 import java.io.IOException;
+import java.time.DateTimeException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Scanner;
 
 public class Controlador {
@@ -102,7 +104,6 @@ public class Controlador {
                 "Simular jogo"
         };
         Menu jogos = new Menu(ops);
-        Scanner in = new Scanner(System.in);
         do {
             jogos.executa();
             switch(jogos.getOpcao()) {
@@ -138,7 +139,13 @@ public class Controlador {
         System.out.print("Inserir data jogo segundo o formato YYYY-MM-DD: ");
         String campos = in.nextLine();
         String[] data = campos.split("-");
-        LocalDate d = LocalDate.of(Integer.parseInt(data[0]),Integer.parseInt(data[1]),Integer.parseInt(data[2]));
+        LocalDate d;
+        try {
+            d = LocalDate.of(Integer.parseInt(data[0]), Integer.parseInt(data[1]), Integer.parseInt(data[2]));
+        } catch (DateTimeException e){
+            d = LocalDate.now();
+            System.out.println("A data inserida é inválida. A data definida para o jogo é: " + d);
+        }
         System.out.print("Inserir nome da equipa da casa: ");
         eqCasa = in.nextLine();
         System.out.print("Inserir nome da equipa visitante: ");
@@ -154,12 +161,30 @@ public class Controlador {
     // Execução de menu para criar um novo jogo
     public void runCriaJogo() {
         Scanner in = new Scanner(System.in);
-        System.out.println("Inserir data jogo segundo o formato YYYY-MM-DD: ");
+        Jogo j = new Jogo();
+        String eqCasa;
+        String eqVisitante;
+        System.out.print("Inserir data jogo segundo o formato YYYY-MM-DD: ");
         String campos = in.nextLine();
         String[] data = campos.split("-");
-        Jogo j = new Jogo();
-        j.setDataJogo(LocalDate.of(Integer.parseInt(data[0]),Integer.parseInt(data[1]),Integer.parseInt(data[2])));
-        this.estado.addJogo(j);
+        LocalDate d;
+        try {
+            d = LocalDate.of(Integer.parseInt(data[0]), Integer.parseInt(data[1]), Integer.parseInt(data[2]));
+        } catch (DateTimeException e){
+            d = LocalDate.now();
+            System.out.println("A data inserida é inválida. A data definida para o jogo é: " + d);
+        }
+        System.out.print("Inserir nome da equipa da casa: ");
+        eqCasa = in.nextLine();
+        System.out.print("Inserir nome da equipa visitante: ");
+        eqVisitante = in.nextLine();
+        if (this.estado.getEquipas().containsKey(eqCasa) && this.estado.getEquipas().containsKey(eqVisitante)) {
+            j.setDataJogo(LocalDate.of(Integer.parseInt(data[0]), Integer.parseInt(data[1]), Integer.parseInt(data[2])));
+            j.setEquipaCasa(eqCasa);
+            j.setEquipaVisitante(eqVisitante);
+            this.estado.addJogo(j);
+        }
+        else System.out.println("As Equipas selecionadas não são válidas.");
     }
 
     // Execução do menu referente às equipas
