@@ -189,6 +189,7 @@ public abstract class Jogador implements Serializable {
         StringBuffer sb = new StringBuffer();
         sb.append("#").append(nrCamisola).append(" | ")
                 .append(this.nome).append(" | ")
+                .append(this.getClass().getSimpleName()).append(" | ")
                 .append("Habilidade: ").append(df2.format(this.habilidade));
         return sb.toString();
     }

@@ -213,12 +213,14 @@ public class Estado implements Serializable {
             e = this.equipas.get(nomeEquipa);
             jogadores = e.getJogadores();
             for (Jogador j : jogadores) {
+                if (j.tipoJogador() == 3 && nrGR == 0) {
+                    res.add(j.getNrCamisola());
+                    nrGR++;
+                    nrJogadores++;
+                }
+            }
+            for (Jogador j : jogadores) {
                 if (nrJogadores < 11) {
-                    if (j.tipoJogador() == 3 && nrGR == 0) {
-                        res.add(j.getNrCamisola());
-                        nrGR++;
-                        nrJogadores++;
-                    }
                     if (j.tipoJogador() != 3 && j.tipoJogador() != -1) {
                         res.add(j.getNrCamisola());
                         nrJogadores++;
