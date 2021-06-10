@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.time.DateTimeException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Scanner;
 
 public class Controlador {
@@ -144,8 +145,11 @@ public class Controlador {
             String nomeVis;
             Equipa eCasa;
             Equipa eVis;
+            long agora = System.currentTimeMillis();
             double habCasa = 0;
             double habVis = 0;
+            int subsCasa = -1;
+            int subsVis;
             if (j.getFimJogo() == 1) {
                 sb.append("** Resultado do jogo **\n")
                         .append(j.getEquipaCasa()).append(" vs ").append(j.getEquipaVisitante()).append(": ")
@@ -153,15 +157,35 @@ public class Controlador {
                 System.out.println(sb);
             }
             else {
+                this.estado.removeJogo(j);
                 nomeCasa = j.getEquipaCasa();
                 eCasa = this.estado.getEquipas().get(nomeCasa);
+                nomeVis = j.getEquipaCasa();
+                eVis = this.estado.getEquipas().get(nomeVis);
+                if (agora % 2 == 0){
+                    for (Jogador jogaCasa : eCasa.getJogadores()) {
+                        if (j.getJogadoresCasa().contains(jogaCasa.getNrCamisola())) {
+                            subsCasa = jogaCasa.getNrCamisola();
+                            break;
+                        }
+                    }
+                    for (Jogador jogaCasa : eCasa.getJogadores()){
+                        if (!j.getJogadoresCasa().contains(jogaCasa.getNrCamisola())){
+                            try {
+                                j.efetuaSubstituicao(nomeCasa, jogaCasa.getNrCamisola(), subsCasa);
+                                System.out.println("Substituição efetuada");
+                            } catch (SubstituicaoInvalidaException e) {
+                                System.out.println("Substituição inválida.");
+                            }
+                            break;
+                        }
+                    }
+                }
                 for (int i : j.getJogadoresCasa()) {
                     for (Jogador jo : eCasa.getJogadores()) {
                         if (jo.getNrCamisola() == i) habCasa += jo.calculaHabilidade();
                     }
                 }
-                nomeVis = j.getEquipaCasa();
-                eVis = this.estado.getEquipas().get(nomeVis);
                 for (int i : j.getJogadoresVisitante()) {
                     for (Jogador jo : eVis.getJogadores()) {
                         if (jo.getNrCamisola() == i) habVis += jo.calculaHabilidade();
@@ -184,6 +208,7 @@ public class Controlador {
                         .append(j.getEquipaCasa()).append(" vs ").append(j.getEquipaVisitante()).append(": ")
                         .append(j.getGolosCasa()).append("-").append(j.getGolosVisitante()).append("\n");
                 System.out.println(sb);
+                this.estado.addJogo(j);
             }
         }
     }

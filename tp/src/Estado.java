@@ -200,7 +200,6 @@ public class Estado implements Serializable {
         setEquipas(e.getEquipas());
     }
 
-
     // Método para convocar jogadores para um jogo
     public Set<Integer> convocaJogadores(String nomeEquipa){
         Set<Integer> res = new TreeSet<>();
@@ -229,5 +228,11 @@ public class Estado implements Serializable {
             }
         }
         return res;
+    }
+
+    // Método para remover um jogo
+    public void removeJogo(Jogo j){
+        jogos.removeIf(lJogo -> j.getDataJogo().equals(lJogo.getDataJogo()) && j.getEquipaCasa().equals(lJogo.getEquipaCasa()) &&
+                j.getEquipaVisitante().equals(lJogo.getEquipaVisitante()));
     }
 }
