@@ -53,6 +53,7 @@ public class Controlador {
     public void run() throws LinhaIncorretaException, IOException, ClassNotFoundException {
         String[] ops = {
                 "Jogadores", "Equipas", "Jogos","Carregar estado de um ficheiro", "Guardar estado num ficheiro", "Carregar logs"
+                , "Sair"
         };
         Menu principal = new Menu(ops);
         do {
@@ -100,7 +101,7 @@ public class Controlador {
     public void runJogos() {
         String[] ops = {
                 "Adicionar jogo","Consultar todos os jogos", "Consultar um jogo",
-                "Determinar o resultado de um jogo", "Simular jogo"
+                "Determinar o resultado de um jogo", "Simular jogo", "Voltar ao menu anterior"
         };
         Menu jogos = new Menu(ops);
         Jogo jo;
@@ -251,7 +252,7 @@ public class Controlador {
     public void runEquipa() throws NullPointerException {
         String[] ops = {
                 "Adicionar equipa", "Adicionar jogadores a uma equipa", "Consultar todas as equipas",
-                "Consultar uma equipa", "Calcular habilidade de uma equipa"
+                "Consultar uma equipa", "Calcular habilidade de uma equipa", "Voltar ao menu anterior"
         };
         Menu equipa = new Menu(ops);
         Scanner in = new Scanner(System.in);
@@ -313,7 +314,7 @@ public class Controlador {
     public void runJogadores() throws NullPointerException { // incompleto
         String[] ops = {
                 "Adicionar jogador", "Remover jogador", "Consultar todos os jogadores",
-                "Consultar um jogador", "Calcular habilidade de um jogador"
+                "Consultar um jogador", "Calcular habilidade de um jogador", "Voltar ao menu anterior"
         };
         Menu jogadores = new Menu(ops);
         Scanner in = new Scanner(System.in);
@@ -363,7 +364,7 @@ public class Controlador {
     // Execução do menu referente à adição de jogadores
     public void runAddJogador() throws NullPointerException { // incompleto
         String[] ops = {
-                "Avançado", "Defesa", "Guarda-Redes", "Lateral", "Médio"
+                "Avançado", "Defesa", "Guarda-Redes", "Lateral", "Médio", "Voltar ao menu anterior"
         };
         Menu jogadores = new Menu(ops);
         Jogador j;

@@ -26,12 +26,19 @@ public class Menu {
     private void showMenu() {
         System.out.println("\n\t\t ---------- Menu ---------- ");
         for (int i=0; i<this.opcoes.size(); i++) {
-            System.out.print("(");
-            System.out.print(i+1);
-            System.out.print(") ");
-            System.out.println(this.opcoes.get(i));
+            if(i != (this.opcoes.size()-1)) {
+                System.out.print("(");
+                System.out.print(i + 1);
+                System.out.print(") ");
+                System.out.println(this.opcoes.get(i));
+            }
+            if(i == (this.opcoes.size()-1)){
+                System.out.print("(");
+                System.out.print(0);
+                System.out.print(") ");
+                System.out.println(this.opcoes.get(i));
+            }
         }
-        System.out.println("(0) Sair");
     }
 
     // Método para ler uma opção
@@ -60,6 +67,6 @@ public class Menu {
 
     // Método para limpar o ecrã
     public void limpa(){
-        for(int i = 0; i < 60; i++) System.out.println();
+        for(int i = 0; i < 50; i++) System.out.println();
     }
 }
