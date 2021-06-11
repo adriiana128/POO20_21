@@ -1,10 +1,7 @@
 import java.io.IOException;
 import java.time.DateTimeException;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Scanner;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 public class Controlador {
     // Variáveis de instância
@@ -144,17 +141,33 @@ public class Controlador {
 
     // Método para simulação de um jogo
     private Jogo simulaJogo(Jogo jo) {
+        StringBuffer sbb = new StringBuffer();
+        sbb.append("Regras de simulação de jogo:\n")
+                .append("(1) Um jogo é constituído por duas partes;\n")
+                .append("(2) Em cada parte, são permitidas no máximo 10 ações;\n")
+                .append("(3) As substituições efetuadas terão de ser necessariamente válidas;\n")
+                .append("\t(3.1) São permitidas, no máximo, 3 substituições no decurso de um jogo;\n")
+                .append("\t(3.2) As substiuições são válidas se for selecionado um jogador presente em campo e outro no banco\n\n")
+                .append("Pressionar qualquer tecla para continuar.\n");
+        System.out.println(sbb);
+        Scanner in = new Scanner(System.in);
+        in.nextLine();
+        for(int i = 0; i < 30; i++) System.out.println();
         this.estado.removeJogo(jo);
         StringBuffer sb = new StringBuffer();
         sb.append(jo.getEquipaCasa()).append(" vs ").append(jo.getEquipaVisitante()).append("\n");
-        System.out.println(" --- INÍCIO DO JOGO ---");
+        System.out.println(" --- PRIMEIRA PARTE: INÍCIO ---");
         System.out.println(sb);
         jo = runParte(jo);
+        System.out.println(" --- PRIMEIRA PARTE: FIM ---");
         System.out.println(" --- INTERVALO ---");
+        System.out.println(" --- SEGUNDA PARTE: INÍCIO ---");
         jo = runParte(jo);
         jo.setFimJogo();
-        this.estado.addJogo(jo);
+        System.out.println(" --- SEGUNDA PARTE: FIM ---");
         System.out.println(" --- FIM DO JOGO ---");
+        this.estado.addJogo(jo);
+
         System.out.println(sb);
         return jo;
     }
@@ -163,13 +176,14 @@ public class Controlador {
     private Jogo runParte(Jogo jo) {
         String[] ops = {
                 "Substituir jogador da equipa da casa","Substituir jogador da equipa visitante",
-                "Jogo", "Terminar parte"
+                "Jogar", "Terminar parte"
         };
         Menu parte = new Menu(ops);
         Scanner in = new Scanner(System.in);
         boolean validado = false;
         int golo;
         int entra, sai;
+        int max = 0;
         do {
             parte.executa();
             switch(parte.getOpcao()) {
@@ -213,11 +227,12 @@ public class Controlador {
                         }
                     }
                     else System.out.println("\nSubstituição inválida.\n");
+                    max++;
                     break;
                 case 2: // Substituir jogador da equipa visitante
                     parte.limpa();
                     Set<Jogador> visitante = new HashSet<>();
-                    System.out.println("Jogadores em campo");
+                    System.out.println("\nJogadores em campo");
                     Set<Jogador> todosVis = new HashSet<>(this.estado.getEquipas().get(jo.getEquipaVisitante()).getJogadores());
                     for(int i : jo.getJogadoresVisitante()) {
                         for (Jogador j : todosVis) {
@@ -254,6 +269,7 @@ public class Controlador {
                         }
                     }
                     else System.out.println("\nSubstituição inválida.\n");
+                    max++;
                     break;
                 case 3: // Ataque
                     parte.limpa();
@@ -261,24 +277,28 @@ public class Controlador {
                     if (golo == 1){
                         System.out.println("\nGOLO! Marcou a equipa da casa.\n");
                     }
-                    else if(golo == 2) System.out.println("\nGOLO! Marcou a equipa visitante.\n");
+                    else if (golo == 2) System.out.println("\nGOLO! Marcou a equipa visitante.\n");
                     else System.out.println("\nNão foram marcados golos.\n");
+                    max++;
                     break;
                 default:
                     parte.limpa();
                     break;
             }
-        } while (parte.getOpcao() != 0);
+        } while ((parte.getOpcao() != 0) && max < 10);
+        if (max == 10) System.out.println("\nNúmero máximo de interações alcançadas.\n");
         return jo;
     }
 
     // Método para determinar se um golo é marcado
     private int marcaGolo(Jogo jo){
-        if(System.currentTimeMillis() % 2 == 0){
+        int[] intArray = {1, 2, 0};
+        int idx = new Random().nextInt(intArray.length);
+        if(idx == 1) {
             jo.marca(jo.getEquipaCasa());
             return 1;
         }
-        else if(System.currentTimeMillis() % 2 == 0){
+        else if (idx == 2){
             jo.marca(jo.getEquipaVisitante());
             return 2;
         }
@@ -321,7 +341,7 @@ public class Controlador {
                             try {
                                 j.efetuaSubstituicao(nomeCasa, subsCasa,jogaCasa.getNrCamisola());
                             } catch (SubstituicaoInvalidaException e) {
-                                System.out.println("Substituição inválida (Casa).");
+                                System.out.println("\nSubstituição inválida.\n");
                             }
                             break;
                         }
@@ -339,7 +359,7 @@ public class Controlador {
                             try {
                                 j.efetuaSubstituicao(nomeVis, subsVis, jogaVis.getNrCamisola());
                             } catch (SubstituicaoInvalidaException e) {
-                                System.out.println("Substituição inválida (Vis).");
+                                System.out.println("\nSubstituição inválida.\n");
                             }
                             break;
                         }
@@ -375,7 +395,7 @@ public class Controlador {
                 this.estado.addJogo(j);
             }
         }
-        else System.out.println("Jogo inávlido.");
+        else System.out.println("Jogo inávlido.\n");
     }
 
     // Execução de menu que permite consultar um jogo
@@ -392,17 +412,18 @@ public class Controlador {
             d = LocalDate.of(Integer.parseInt(data[0]), Integer.parseInt(data[1]), Integer.parseInt(data[2]));
         } catch (DateTimeException e){
             d = LocalDate.now();
-            System.out.println("A data inserida é inválida. A data definida para o jogo é: " + d);
+            System.out.println("A data inserida é inválida. A data definida para o jogo é: " + d + "\n");
         }
         System.out.print("Inserir nome da equipa da casa: ");
         eqCasa = in.nextLine();
         System.out.print("Inserir nome da equipa visitante: ");
         eqVisitante = in.nextLine();
+        System.out.println("\n");
         for(Jogo j : this.estado.getJogos()){
             if (j.getDataJogo().equals(d) && j.getEquipaCasa().equals(eqCasa) && j.getEquipaVisitante().equals(eqVisitante))
                 jFim = j;
         }
-        if (jFim == null) System.out.println("Jogo inválido.");
+        if (jFim == null) System.out.println("Jogo inválido.\n");
         return jFim;
     }
 
@@ -420,12 +441,13 @@ public class Controlador {
             d = LocalDate.of(Integer.parseInt(data[0]), Integer.parseInt(data[1]), Integer.parseInt(data[2]));
         } catch (DateTimeException e){
             d = LocalDate.now();
-            System.out.println("A data inserida é inválida. A data definida para o jogo é: " + d);
+            System.out.println("A data inserida é inválida. A data definida para o jogo é: " + d + "\n");
         }
         System.out.print("Inserir nome da equipa da casa: ");
         eqCasa = in.nextLine();
         System.out.print("Inserir nome da equipa visitante: ");
         eqVisitante = in.nextLine();
+        System.out.print("\n");
         if (this.estado.getEquipas().containsKey(eqCasa) && this.estado.getEquipas().containsKey(eqVisitante)) {
             j.setDataJogo(d);
             j.setEquipaCasa(eqCasa);
@@ -435,7 +457,7 @@ public class Controlador {
             this.estado.addJogo(j);
             return j;
         }
-        else System.out.println("As Equipas selecionadas não são válidas.");
+        else System.out.println("\nAs Equipas selecionadas não são válidas.\n");
         return null;
     }
 
@@ -473,9 +495,9 @@ public class Controlador {
                             this.estado.removeEquipa(nomeEq);
                             this.estado.addEquipa(eq);
                         }
-                        else System.out.println("Jogador inválido.");
+                        else System.out.println("\nJogador inválido.\n");
                     }
-                    else System.out.println("Equipa inválida.");
+                    else System.out.println("\nEquipa inválida.\n");
                     break;
                 case 3: // Consultar todas as equipas
                     equipa.limpa();
@@ -487,7 +509,7 @@ public class Controlador {
                     nomeEq = in.nextLine();
                     if (this.estado.getEquipas().containsKey(nomeEq))
                         System.out.println(this.estado.getEquipas().get(nomeEq).toString());
-                    else System.out.println("Equipa inexistente.");
+                    else System.out.println("\nEquipa inexistente.\n");
                     break;
                 case 5: // Calcular habilidade de uma equipa
                     equipa.limpa();
@@ -495,7 +517,7 @@ public class Controlador {
                     nomeEq = in.nextLine();
                     if (this.estado.getEquipas().containsKey(nomeEq))
                         System.out.println(this.estado.getEquipas().get(nomeEq).toStringHabilidadeGlobal());
-                    else System.out.println("Equipa inexistente.");
+                    else System.out.println("\nEquipa inexistente.\n");
                     break;
                 default:
                     equipa.limpa();
@@ -526,7 +548,7 @@ public class Controlador {
                     nome = in.nextLine();
                     if (this.estado.getJogadores().containsKey(nome))
                         this.estado.removeJogador(nome);
-                    else System.out.println("Jogador inexistente.");
+                    else System.out.println("\nJogador inexistente.\n");
                     break;
                 case 3: // Consultar todos os jogadores
                     jogadores.limpa();
@@ -538,7 +560,7 @@ public class Controlador {
                     nome = in.nextLine();
                     if (this.estado.getJogadores().containsKey(nome))
                         System.out.println(this.estado.getJogadores().get(nome).toString());
-                    else System.out.println("Jogador inexistente.");
+                    else System.out.println("Jogador inexistente.\n");
                     break;
                 case 5: // Calcular habilidade de um jogador
                     jogadores.limpa();
@@ -546,7 +568,7 @@ public class Controlador {
                     nome = in.nextLine();
                     if (this.estado.getJogadores().containsKey(nome))
                         System.out.println("Habilidade: "+this.estado.getJogadores().get(nome).getHabilidade());
-                    else System.out.println("Jogador inexistente.");
+                    else System.out.println("\nJogador inexistente.\n");
                     break;
                 default:
                     jogadores.limpa();
