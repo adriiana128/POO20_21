@@ -167,8 +167,11 @@ public class Jogo implements Serializable {
     @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
+        String terminado;
+        if (this.fimJogo == 1 ) terminado = "Terminado.";
+        else terminado = "Por iniciar.";
         sb.append("\n********* JOGO *********\n")
-                .append("Data: ").append(dataJogo).append("\n")
+                .append("Data: ").append(dataJogo).append(" | ").append("Estado: ").append(terminado).append("\n")
                 .append("Equipas: ").append(equipaCasa).append(" vs ").append(equipaVisitante).append("\n")
                 .append("Resultado: "). append(golosCasa).append("-").append(golosVisitante).append("\n\n")
                 .append(equipaCasa).append("\nTitulares:\n").append(jogadoresCasa).append("\n")
@@ -206,7 +209,7 @@ public class Jogo implements Serializable {
     }
 
     // Método para efetuar as substituições de jogadores
-    public void efetuaSubstituicao(String nome, Integer out, Integer in) throws SubstituicaoInvalidaException{
+    public void efetuaSubstituicao(String nome, int out, int in) throws SubstituicaoInvalidaException{
         if (nome.equals(this.equipaCasa)) {
             if (this.jogadoresCasa.contains(out) && this.substituicoesCasa.size() < 3) {
                 this.jogadoresCasa.remove(out);
@@ -226,16 +229,10 @@ public class Jogo implements Serializable {
         else throw new SubstituicaoInvalidaException();
     }
 
-    // Método para verificar se um jogador está em campo
-    public boolean presenteEmCampo(String nomeEquipa, int nrCamisola){
-        boolean res = false;
-        if (nomeEquipa.equals(this.equipaCasa)) {
-            if (this.jogadoresCasa.contains(nrCamisola)) res = true;
-        }
-        else if (nomeEquipa.equals(this.equipaVisitante)){
-            if (this.jogadoresVisitante.contains(nrCamisola)) res = true;
-        }
-        else System.out.println("Nome de Equipa inválido.");
-        return res;
+    // Método para marcação de golo
+    public void marca(String nome){
+        if (nome.equals(this.equipaCasa)) this.golosCasa++;
+        else if (nome.equals(this.equipaVisitante)) this.golosVisitante++;
+        else System.out.println("Nome de equipa inválido.");
     }
 }

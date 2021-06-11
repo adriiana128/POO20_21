@@ -1,8 +1,10 @@
 import java.io.IOException;
 import java.time.DateTimeException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class Controlador {
     // Variáveis de instância
@@ -105,13 +107,13 @@ public class Controlador {
                 "Determinar o resultado de um jogo", "Simular jogo", "Voltar ao menu anterior"
         };
         Menu jogos = new Menu(ops);
-        Jogo jo;
+        Jogo jo = null;
         do {
             jogos.executa();
             switch(jogos.getOpcao()) {
                 case 1: // Adicionar jogo
                     jogos.limpa();
-                    runCriaJogo();
+                    jo = runCriaJogo();
                     break;
                 case 2: // Consultar todos os jogos
                     jogos.limpa();
@@ -123,18 +125,143 @@ public class Controlador {
                     break;
                 case 4: // Determinar o resultado de um jogo
                     jogos.limpa();
-                    jo = runConsultaJogo();
-                    runResultado(jo);
+                    if (jo != null) runResultado(jo);
+                    else runResultado(runConsultaJogo());
                     break;
                 case 5: // Simular um jogo
                     jogos.limpa();
-                    // incompleto
+                    if (jo != null && jo.getFimJogo() != 1) jo = simulaJogo(jo);// incompleto
+                    else System.out.println("Criar um novo jogo primeiro.");
                     break;
                 default:
                     jogos.limpa();
                     break;
             }
         } while (jogos.getOpcao() != 0);
+    }
+
+    // Método para simulação de um jogo
+    private Jogo simulaJogo(Jogo jo) {
+        this.estado.removeJogo(jo);
+        StringBuffer sb = new StringBuffer();
+        sb.append(jo.getEquipaCasa()).append(" vs ").append(jo.getEquipaVisitante()).append("\n");
+        System.out.println(" --- INÍCIO DO JOGO ---");
+        System.out.println(sb);
+        jo = runParte(jo);
+        System.out.println(" --- INTERVALO ---");
+        jo = runParte(jo);
+        jo.setFimJogo();
+        this.estado.addJogo(jo);
+        System.out.println(" --- FIM DO JOGO ---");
+        System.out.println(sb);
+        return jo;
+    }
+
+    // Método para executar as partes de um jogo
+    private Jogo runParte(Jogo jo) {
+        String[] ops = {
+                "Substituir jogador da equipa da casa","Substituir jogador da equipa visitante",
+                "Jogo", "Terminar parte"
+        };
+        Menu parte = new Menu(ops);
+        Scanner in = new Scanner(System.in);
+        Set<Jogador> troca = new HashSet<>();
+        Set<Jogador> casa = new HashSet<>();
+        Set<Jogador> visitante = new HashSet<>();
+        Set<Jogador> todos;
+        int golo;
+        int entra, sai;
+        do {
+            parte.executa();
+            switch(parte.getOpcao()) {
+                case 1: // Substituir jogador da equipa da casa
+                    parte.limpa();
+                    System.out.println("Jogadores em campo");
+                    todos = this.estado.getEquipas().get(jo.getEquipaCasa()).getJogadores();
+                    for(int i : jo.getJogadoresCasa()) {
+                        for (Jogador j : todos) {
+                            if (j.getNrCamisola() == i) casa.add(j);
+                        }
+                    }
+                    for(Jogador j : casa) System.out.println(j.toStringJogadorSimples());
+                    System.out.println("\nJogadores disponíveis para trocar");
+                    for (Jogador j : this.estado.getEquipas().get(jo.getEquipaCasa()).getJogadores()){
+                        if (!jo.getJogadoresCasa().contains(j.getNrCamisola())
+                                && j.tipoJogador() != 3
+                                && !jo.getSubstituicoesCasa().containsKey(j.getNrCamisola())
+                                && !jo.getSubstituicoesCasa().containsValue(j.getNrCamisola()))
+                            troca.add(j);
+                    }
+                    for(Jogador j : troca) System.out.println(j.toStringJogadorSimples());
+                    System.out.print("Selecionar jogador para sair: ");
+                    sai = in.nextInt();
+                    System.out.print("Selecionar jogador para entrar: ");
+                    entra = in.nextInt();
+                    try{
+                        jo.efetuaSubstituicao(jo.getEquipaCasa(),sai,entra);
+                        System.out.println("Substituição efetuada.");
+                    } catch (SubstituicaoInvalidaException e){
+                        System.out.println("Substituição inválida.");
+                    }
+                    break;
+                case 2: // Substituir jogador da equipa visitante
+                    parte.limpa();
+                    System.out.println("Jogadores em campo");
+                    todos = this.estado.getEquipas().get(jo.getEquipaVisitante()).getJogadores();
+                    for(int i : jo.getJogadoresVisitante()) {
+                        for (Jogador j : todos) {
+                            if (j.getNrCamisola() == i) visitante.add(j);
+                        }
+                    }
+                    for(Jogador j : visitante) System.out.println(j.toStringJogadorSimples());
+                    System.out.println("\nJogadores disponíveis para trocar");
+                    for (Jogador j : this.estado.getEquipas().get(jo.getEquipaVisitante()).getJogadores()){
+                        if (!jo.getJogadoresVisitante().contains(j.getNrCamisola())
+                                && j.tipoJogador() != 3
+                                && !jo.getSubstituicoesVisitante().containsKey(j.getNrCamisola())
+                                && !jo.getSubstituicoesVisitante().containsValue(j.getNrCamisola()))
+                            troca.add(j);
+                    }
+                    for(Jogador j : troca) System.out.println(j.toStringJogadorSimples());
+                    System.out.print("Selecionar jogador para sair: ");
+                    sai = in.nextInt();
+                    System.out.print("Selecionar jogador para entrar: ");
+                    entra = in.nextInt();
+                    try{
+                        jo.efetuaSubstituicao(jo.getEquipaVisitante(),sai,entra);
+                        System.out.println("Substituição efetuada.");
+                    } catch (SubstituicaoInvalidaException e){
+                        System.out.println("Substituição inválida.");
+                    }
+                    break;
+                case 3: // Ataque
+                    parte.limpa();
+                    golo = marcaGolo(jo);
+                    if (golo == 1){
+                        System.out.println("Golo! Marcou a equipa da casa.");
+                    }
+                    else if(golo == 2) System.out.println("Golo! Marcou a equipa visitante.");
+                    else System.out.println("Não foram marcados golos.");
+                    break;
+                default:
+                    parte.limpa();
+                    break;
+            }
+        } while (parte.getOpcao() != 0);
+        return jo;
+    }
+
+    // Método para determinar se um golo é marcado
+    private int marcaGolo(Jogo jo){
+        if(System.currentTimeMillis() % 2 == 0){
+            jo.marca(jo.getEquipaCasa());
+            return 1;
+        }
+        else if(System.currentTimeMillis() % 2 == 0){
+            jo.marca(jo.getEquipaVisitante());
+            return 2;
+        }
+        else return 0;
     }
 
     // Execução de cálculo do resultado de um jogo
@@ -259,7 +386,7 @@ public class Controlador {
     }
 
     // Execução de menu para criar um novo jogo
-    public void runCriaJogo() {
+    public Jogo runCriaJogo() {
         Scanner in = new Scanner(System.in);
         Jogo j = new Jogo();
         String eqCasa;
@@ -285,8 +412,10 @@ public class Controlador {
             j.setEquipaVisitante(eqVisitante);
             j.setJogadoresVisitante(this.estado.convocaJogadores(eqVisitante));
             this.estado.addJogo(j);
+            return j;
         }
         else System.out.println("As Equipas selecionadas não são válidas.");
+        return null;
     }
 
     // Execução do menu referente às equipas
