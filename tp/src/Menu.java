@@ -24,7 +24,6 @@ public class Menu {
 
     // Método para mostrar o menu
     private void showMenu() {
-        System.out.println("\n\t\t ---------- Menu ---------- ");
         for (int i=0; i<this.opcoes.size(); i++) {
             if(i != (this.opcoes.size()-1)) {
                 System.out.print("(");

@@ -177,7 +177,7 @@ public class Jogo implements Serializable {
                 .append(equipaCasa).append("\nTitulares:\n").append(jogadoresCasa).append("\n")
                 .append("\nSubstituições:\n").append(toStringMap(substituicoesCasa)).append("\n\n")
                 .append(equipaVisitante).append("\nTitulares:\n").append(jogadoresVisitante).append("\n\n")
-                .append("Banco:\n").append(toStringMap(substituicoesVisitante)).append("\n");
+                .append("Substituições:\n").append(toStringMap(substituicoesVisitante)).append("\n");
         return sb.toString();
     }
 
@@ -233,6 +233,6 @@ public class Jogo implements Serializable {
     public void marca(String nome){
         if (nome.equals(this.equipaCasa)) this.golosCasa++;
         else if (nome.equals(this.equipaVisitante)) this.golosVisitante++;
-        else System.out.println("Nome de equipa inválido.");
+        else System.out.println("\nNome de equipa inválido.\n");
     }
 }

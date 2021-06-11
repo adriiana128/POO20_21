@@ -58,6 +58,7 @@ public class Controlador {
                 "Jogadores", "Equipas", "Jogos","Carregar estado de um ficheiro", "Guardar estado num ficheiro", "Carregar logs"
                 , "Sair"
         };
+        System.out.println("\n\t\t ---------- Menu ---------- ");
         Menu principal = new Menu(ops);
         do {
             principal.executa();
@@ -75,6 +76,7 @@ public class Controlador {
                     runJogos(); // incompleto
                     break;
                 case 4: // Carregar estado de um ficheiro
+                    principal.limpa();
                     this.estado.loadEstadoObj("Estado.obj");
                     break;
                 case 5: // Guardar estado num ficheiro
@@ -130,7 +132,7 @@ public class Controlador {
                     break;
                 case 5: // Simular um jogo
                     jogos.limpa();
-                    if (jo != null && jo.getFimJogo() != 1) jo = simulaJogo(jo);// incompleto
+                    if (jo != null && jo.getFimJogo() != 1) jo = simulaJogo(jo);
                     else System.out.println("Criar um novo jogo primeiro.");
                     break;
                 default:
@@ -165,10 +167,7 @@ public class Controlador {
         };
         Menu parte = new Menu(ops);
         Scanner in = new Scanner(System.in);
-        Set<Jogador> troca = new HashSet<>();
-        Set<Jogador> casa = new HashSet<>();
-        Set<Jogador> visitante = new HashSet<>();
-        Set<Jogador> todos;
+        boolean validado = false;
         int golo;
         int entra, sai;
         do {
@@ -177,13 +176,15 @@ public class Controlador {
                 case 1: // Substituir jogador da equipa da casa
                     parte.limpa();
                     System.out.println("Jogadores em campo");
-                    todos = this.estado.getEquipas().get(jo.getEquipaCasa()).getJogadores();
+                    Set<Jogador> todosCasa = new HashSet<>(this.estado.getEquipas().get(jo.getEquipaCasa()).getJogadores());
+                    Set<Jogador> casa = new HashSet<>();
                     for(int i : jo.getJogadoresCasa()) {
-                        for (Jogador j : todos) {
+                        for (Jogador j : todosCasa) {
                             if (j.getNrCamisola() == i) casa.add(j);
                         }
                     }
                     for(Jogador j : casa) System.out.println(j.toStringJogadorSimples());
+                    Set<Jogador> troca = new HashSet<>();
                     System.out.println("\nJogadores disponíveis para trocar");
                     for (Jogador j : this.estado.getEquipas().get(jo.getEquipaCasa()).getJogadores()){
                         if (!jo.getJogadoresCasa().contains(j.getNrCamisola())
@@ -197,22 +198,33 @@ public class Controlador {
                     sai = in.nextInt();
                     System.out.print("Selecionar jogador para entrar: ");
                     entra = in.nextInt();
-                    try{
-                        jo.efetuaSubstituicao(jo.getEquipaCasa(),sai,entra);
-                        System.out.println("Substituição efetuada.");
-                    } catch (SubstituicaoInvalidaException e){
-                        System.out.println("Substituição inválida.");
+                    for (Jogador j: todosCasa){
+                        if (j.getNrCamisola() == entra){
+                            validado = true;
+                            break;
+                        }
                     }
+                    if (validado) {
+                        try {
+                            jo.efetuaSubstituicao(jo.getEquipaCasa(), sai, entra);
+                            System.out.println("\nSubstituição efetuada.\n");
+                        } catch (SubstituicaoInvalidaException e) {
+                            System.out.println("\nSubstituição inválida.\n");
+                        }
+                    }
+                    else System.out.println("\nSubstituição inválida.\n");
                     break;
                 case 2: // Substituir jogador da equipa visitante
                     parte.limpa();
+                    Set<Jogador> visitante = new HashSet<>();
                     System.out.println("Jogadores em campo");
-                    todos = this.estado.getEquipas().get(jo.getEquipaVisitante()).getJogadores();
+                    Set<Jogador> todosVis = new HashSet<>(this.estado.getEquipas().get(jo.getEquipaVisitante()).getJogadores());
                     for(int i : jo.getJogadoresVisitante()) {
-                        for (Jogador j : todos) {
+                        for (Jogador j : todosVis) {
                             if (j.getNrCamisola() == i) visitante.add(j);
                         }
                     }
+                    Set<Jogador> muda = new HashSet<>();
                     for(Jogador j : visitante) System.out.println(j.toStringJogadorSimples());
                     System.out.println("\nJogadores disponíveis para trocar");
                     for (Jogador j : this.estado.getEquipas().get(jo.getEquipaVisitante()).getJogadores()){
@@ -220,28 +232,37 @@ public class Controlador {
                                 && j.tipoJogador() != 3
                                 && !jo.getSubstituicoesVisitante().containsKey(j.getNrCamisola())
                                 && !jo.getSubstituicoesVisitante().containsValue(j.getNrCamisola()))
-                            troca.add(j);
+                            muda.add(j);
                     }
-                    for(Jogador j : troca) System.out.println(j.toStringJogadorSimples());
+                    for(Jogador j : muda) System.out.println(j.toStringJogadorSimples());
                     System.out.print("Selecionar jogador para sair: ");
                     sai = in.nextInt();
                     System.out.print("Selecionar jogador para entrar: ");
                     entra = in.nextInt();
-                    try{
-                        jo.efetuaSubstituicao(jo.getEquipaVisitante(),sai,entra);
-                        System.out.println("Substituição efetuada.");
-                    } catch (SubstituicaoInvalidaException e){
-                        System.out.println("Substituição inválida.");
+                    for (Jogador j: todosVis){
+                        if (j.getNrCamisola() == entra){
+                            validado = true;
+                            break;
+                        }
                     }
+                    if(validado) {
+                        try {
+                            jo.efetuaSubstituicao(jo.getEquipaVisitante(), sai, entra);
+                            System.out.println("\nSubstituição efetuada.\n");
+                        } catch (SubstituicaoInvalidaException e) {
+                            System.out.println("\nSubstituição inválida.\n");
+                        }
+                    }
+                    else System.out.println("\nSubstituição inválida.\n");
                     break;
                 case 3: // Ataque
                     parte.limpa();
                     golo = marcaGolo(jo);
                     if (golo == 1){
-                        System.out.println("Golo! Marcou a equipa da casa.");
+                        System.out.println("\nGOLO! Marcou a equipa da casa.\n");
                     }
-                    else if(golo == 2) System.out.println("Golo! Marcou a equipa visitante.");
-                    else System.out.println("Não foram marcados golos.");
+                    else if(golo == 2) System.out.println("\nGOLO! Marcou a equipa visitante.\n");
+                    else System.out.println("\nNão foram marcados golos.\n");
                     break;
                 default:
                     parte.limpa();
@@ -433,12 +454,14 @@ public class Controlador {
             equipa.executa();
             switch (equipa.getOpcao()) {
                 case 1: // Adicionar equipa
+                    equipa.limpa();
                     System.out.print("Inserir nome da Equipa: ");
                     nomeEq = in.nextLine();
                     eq = new Equipa(nomeEq);
                     this.estado.addEquipa(eq);
                     break;
                 case 2: // Adicionar jogadores a uma equipa
+                    equipa.limpa();
                     System.out.print("Inserir nome da Equipa: ");
                     nomeEq = in.nextLine();
                     System.out.print("Inserir nome do Jogador: ");
@@ -455,6 +478,7 @@ public class Controlador {
                     else System.out.println("Equipa inválida.");
                     break;
                 case 3: // Consultar todas as equipas
+                    equipa.limpa();
                     for(Equipa e : this.estado.getEquipas().values()) System.out.println(e.toString());
                     break;
                 case 4: // Consultar uma equipa
