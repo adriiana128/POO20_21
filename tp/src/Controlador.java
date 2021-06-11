@@ -124,7 +124,7 @@ public class Controlador {
                 case 4: // Determinar o resultado de um jogo
                     jogos.limpa();
                     jo = runConsultaJogo();
-                    runResultado(jo); // incompleto
+                    runResultado(jo);
                     break;
                 case 5: // Simular um jogo
                     jogos.limpa();
@@ -137,7 +137,7 @@ public class Controlador {
         } while (jogos.getOpcao() != 0);
     }
 
-    // Execução de info
+    // Execução de cálculo do resultado de um jogo
     private void runResultado(Jogo j) {
         if(this.estado.getJogos().contains(j)) {
             StringBuffer sb = new StringBuffer();
@@ -145,13 +145,12 @@ public class Controlador {
             String nomeVis;
             Equipa eCasa;
             Equipa eVis;
-            long agora = System.currentTimeMillis();
             double habCasa = 0;
             double habVis = 0;
             int subsCasa = -1;
-            int subsVis;
+            int subsVis = -1;
             if (j.getFimJogo() == 1) {
-                sb.append("** Resultado do jogo **\n")
+                sb.append("\n** Resultado do jogo **\n")
                         .append(j.getEquipaCasa()).append(" vs ").append(j.getEquipaVisitante()).append(": ")
                         .append(j.getGolosCasa()).append("-").append(j.getGolosVisitante()).append("\n");
                 System.out.println(sb);
@@ -160,22 +159,39 @@ public class Controlador {
                 this.estado.removeJogo(j);
                 nomeCasa = j.getEquipaCasa();
                 eCasa = this.estado.getEquipas().get(nomeCasa);
-                nomeVis = j.getEquipaCasa();
+                nomeVis = j.getEquipaVisitante();
                 eVis = this.estado.getEquipas().get(nomeVis);
-                if (agora % 2 == 0){
+                if (System.currentTimeMillis() % 2 == 0){
                     for (Jogador jogaCasa : eCasa.getJogadores()) {
-                        if (j.getJogadoresCasa().contains(jogaCasa.getNrCamisola())) {
+                        if (j.getJogadoresCasa().contains(jogaCasa.getNrCamisola()) && jogaCasa.tipoJogador() != 3) {
                             subsCasa = jogaCasa.getNrCamisola();
                             break;
                         }
                     }
                     for (Jogador jogaCasa : eCasa.getJogadores()){
-                        if (!j.getJogadoresCasa().contains(jogaCasa.getNrCamisola())){
+                        if (!j.getJogadoresCasa().contains(jogaCasa.getNrCamisola()) && jogaCasa.tipoJogador() != 3){
                             try {
-                                j.efetuaSubstituicao(nomeCasa, jogaCasa.getNrCamisola(), subsCasa);
-                                System.out.println("Substituição efetuada");
+                                j.efetuaSubstituicao(nomeCasa, subsCasa,jogaCasa.getNrCamisola());
                             } catch (SubstituicaoInvalidaException e) {
-                                System.out.println("Substituição inválida.");
+                                System.out.println("Substituição inválida (Casa).");
+                            }
+                            break;
+                        }
+                    }
+                }
+                if (System.currentTimeMillis() % 2 == 0){
+                    for (Jogador jogaVis : eVis.getJogadores()) {
+                        if (j.getJogadoresVisitante().contains(jogaVis.getNrCamisola()) && jogaVis.tipoJogador() != 3) {
+                            subsVis = jogaVis.getNrCamisola();
+                            break;
+                        }
+                    }
+                    for (Jogador jogaVis : eVis.getJogadores()){
+                        if (!j.getJogadoresVisitante().contains(jogaVis.getNrCamisola()) && jogaVis.tipoJogador() != 3){
+                            try {
+                                j.efetuaSubstituicao(nomeVis, subsVis, jogaVis.getNrCamisola());
+                            } catch (SubstituicaoInvalidaException e) {
+                                System.out.println("Substituição inválida (Vis).");
                             }
                             break;
                         }
@@ -204,13 +220,14 @@ public class Controlador {
                         j.setGolosCasa(1);
                         j.setGolosVisitante(1);
                     }
-                sb.append("** Resultado do jogo **\n")
+                sb.append("\n** Resultado do jogo **\n")
                         .append(j.getEquipaCasa()).append(" vs ").append(j.getEquipaVisitante()).append(": ")
                         .append(j.getGolosCasa()).append("-").append(j.getGolosVisitante()).append("\n");
                 System.out.println(sb);
                 this.estado.addJogo(j);
             }
         }
+        else System.out.println("Jogo inávlido.");
     }
 
     // Execução de menu que permite consultar um jogo
@@ -237,8 +254,7 @@ public class Controlador {
             if (j.getDataJogo().equals(d) && j.getEquipaCasa().equals(eqCasa) && j.getEquipaVisitante().equals(eqVisitante))
                 jFim = j;
         }
-        if (jFim != null) System.out.println(jFim.toString());
-        else System.out.println("Jogo inválido.");
+        if (jFim == null) System.out.println("Jogo inválido.");
         return jFim;
     }
 

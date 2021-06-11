@@ -208,16 +208,20 @@ public class Jogo implements Serializable {
     // Método para efetuar as substituições de jogadores
     public void efetuaSubstituicao(String nome, Integer out, Integer in) throws SubstituicaoInvalidaException{
         if (nome.equals(this.equipaCasa)) {
-            if (!this.jogadoresCasa.contains(out) || this.substituicoesCasa.size() > 3) throw new SubstituicaoInvalidaException();
-            this.jogadoresCasa.remove(out);
-            this.jogadoresCasa.add(in);
-            this.substituicoesCasa.put(out,in);
+            if (this.jogadoresCasa.contains(out) && this.substituicoesCasa.size() < 3) {
+                this.jogadoresCasa.remove(out);
+                this.jogadoresCasa.add(in);
+                this.substituicoesCasa.put(out, in);
+            }
+            else throw new SubstituicaoInvalidaException();
         }
         else if (nome.equals(this.equipaVisitante)){
-            if (!this.jogadoresVisitante.contains(out) || this.substituicoesVisitante.size() > 3) throw new SubstituicaoInvalidaException();
-            this.jogadoresVisitante.remove(out);
-            this.jogadoresVisitante.add(in);
-            this.substituicoesVisitante.put(out,in);
+            if (this.jogadoresVisitante.contains(out) && this.substituicoesVisitante.size() < 3) {
+                this.jogadoresVisitante.remove(out);
+                this.jogadoresVisitante.add(in);
+                this.substituicoesVisitante.put(out, in);
+            }
+            else throw new SubstituicaoInvalidaException();
         }
         else throw new SubstituicaoInvalidaException();
     }
