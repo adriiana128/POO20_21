@@ -1,7 +1,11 @@
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.DateTimeException;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Scanner;
+import java.util.Set;
 
 public class Controlador {
     // Variáveis de instância
@@ -74,11 +78,17 @@ public class Controlador {
                     break;
                 case 4: // Carregar estado de um ficheiro
                     principal.limpa();
-                    this.estado.loadEstadoObj("Estado.obj");
+                    try {
+                        this.estado.loadEstadoObj("Estado.obj");
+                        System.out.println("\nEstado carregado.\n");
+                    } catch (FileNotFoundException e){
+                        System.out.println("\nEstado não carregado: ficheiro não existente.\n");
+                    }
                     break;
                 case 5: // Guardar estado num ficheiro
                     principal.limpa();
                     this.estado.saveEstado();
+                    System.out.println("\nEstado gravado.\n");
                     break;
                 case 6: // Carregar logs
                     principal.limpa();
@@ -130,7 +140,7 @@ public class Controlador {
                 case 5: // Simular um jogo
                     jogos.limpa();
                     if (jo != null && jo.getFimJogo() != 1) jo = simulaJogo(jo);
-                    else System.out.println("Criar um novo jogo primeiro.");
+                    else System.out.println("Criar um novo jogo primeiro.\n");
                     break;
                 default:
                     jogos.limpa();
@@ -410,7 +420,7 @@ public class Controlador {
         LocalDate d;
         try {
             d = LocalDate.of(Integer.parseInt(data[0]), Integer.parseInt(data[1]), Integer.parseInt(data[2]));
-        } catch (DateTimeException e){
+        } catch (DateTimeException | NumberFormatException e){
             d = LocalDate.now();
             System.out.println("A data inserida é inválida. A data definida para o jogo é: " + d + "\n");
         }
@@ -439,7 +449,7 @@ public class Controlador {
         LocalDate d;
         try {
             d = LocalDate.of(Integer.parseInt(data[0]), Integer.parseInt(data[1]), Integer.parseInt(data[2]));
-        } catch (DateTimeException e){
+        } catch (DateTimeException | NumberFormatException e){
             d = LocalDate.now();
             System.out.println("A data inserida é inválida. A data definida para o jogo é: " + d + "\n");
         }
@@ -481,6 +491,7 @@ public class Controlador {
                     nomeEq = in.nextLine();
                     eq = new Equipa(nomeEq);
                     this.estado.addEquipa(eq);
+                    System.out.println();
                     break;
                 case 2: // Adicionar jogadores a uma equipa
                     equipa.limpa();
@@ -490,14 +501,18 @@ public class Controlador {
                     nomeJog = in.nextLine();
                     if (this.estado.getEquipas().containsKey(nomeEq)){
                         if (this.estado.getJogadores().containsKey(nomeJog)){
+                            Jogador j = this.estado.getJogadores().get(nomeJog);
+                            this.estado.removeJogador(nomeJog);
                             eq = new Equipa(this.estado.getEquipas().get(nomeEq));
-                            eq.adicionaJogador(this.estado.getJogadores().get(nomeJog));
+                            eq.adicionaJogador(j);
+                            this.estado.addJogador(j);
                             this.estado.removeEquipa(nomeEq);
                             this.estado.addEquipa(eq);
                         }
                         else System.out.println("\nJogador inválido.\n");
                     }
                     else System.out.println("\nEquipa inválida.\n");
+                    System.out.println();
                     break;
                 case 3: // Consultar todas as equipas
                     equipa.limpa();
@@ -553,6 +568,7 @@ public class Controlador {
                 case 3: // Consultar todos os jogadores
                     jogadores.limpa();
                     for(Jogador j : this.estado.getJogadores().values()) System.out.println(j.toStringJogadorSimples());
+                    System.out.println();
                     break;
                 case 4: // Consultar um jogador
                     jogadores.limpa();
@@ -561,6 +577,7 @@ public class Controlador {
                     if (this.estado.getJogadores().containsKey(nome))
                         System.out.println(this.estado.getJogadores().get(nome).toString());
                     else System.out.println("Jogador inexistente.\n");
+                    System.out.println();
                     break;
                 case 5: // Calcular habilidade de um jogador
                     jogadores.limpa();
@@ -569,6 +586,7 @@ public class Controlador {
                     if (this.estado.getJogadores().containsKey(nome))
                         System.out.println("Habilidade: "+this.estado.getJogadores().get(nome).getHabilidade());
                     else System.out.println("\nJogador inexistente.\n");
+                    System.out.println();
                     break;
                 default:
                     jogadores.limpa();
@@ -578,7 +596,7 @@ public class Controlador {
     }
 
     // Execução do menu referente à adição de jogadores
-    public void runAddJogador() throws NullPointerException { // incompleto
+    public void runAddJogador(){
         String[] ops = {
                 "Avançado", "Defesa", "Guarda-Redes", "Lateral", "Médio", "Voltar ao menu anterior"
         };
@@ -653,24 +671,29 @@ public class Controlador {
         if (numero == 1){ // Avançado
             System.out.print("Inserir capacidade de marcação de penálti (0-100): ");
             res[0] = in.nextInt();
+            System.out.println();
         }
         if (numero == 2){ // Defesa
             System.out.print("Inserir capacidade de marcação dos jogadores adversários (0-100): ");
             res[0] = in.nextInt();
+            System.out.println();
         }
         if (numero == 3){ // Guarda-Redes
             System.out.print("Inserir elasticidade (0-100): ");
             res[0] = in.nextInt();
             System.out.print("Inserir capacidade de defesa (0-100): ");
             res[1] = in.nextInt();
+            System.out.println();
         }
         if (numero == 4){ // Lateral
             System.out.print("Inserir capacidade de cruzamento (0-100): ");
             res[0] = in.nextInt();
+            System.out.println();
         }
         if (numero == 5){ // Medio
             System.out.print("Inserir capacidade de marcação (0-100): ");
             res[0] = in.nextInt();
+            System.out.println();
         }
         return res;
     }

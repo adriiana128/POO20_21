@@ -157,7 +157,7 @@ public class Estado implements Serializable {
 
     // Método para adicionar um jogador ao estado atual da aplicação
     public void addJogador(Jogador j){
-        this.jogadores.put(j.getNome(),j.clone());
+        this.jogadores.put(j.getNome(),j);
     }
 
     // Método para adicionar um jogo ao estado atual da aplicação
