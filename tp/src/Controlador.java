@@ -59,8 +59,9 @@ public class Controlador {
                 "Jogadores", "Equipas", "Jogos","Carregar estado de um ficheiro", "Guardar estado num ficheiro", "Carregar logs"
                 , "Sair"
         };
-        System.out.println("\n\t\t ---------- Menu ---------- ");
         Menu principal = new Menu(ops);
+        principal.limpa();
+        System.out.println("\n\t\t ---------- Menu ---------- ");
         do {
             principal.executa();
             switch(principal.getOpcao()) {
