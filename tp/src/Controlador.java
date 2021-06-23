@@ -160,6 +160,7 @@ public class Controlador {
                 .append("\t(3.1) São permitidas, no máximo, 3 substituições no decurso de um jogo;\n")
                 .append("\t(3.2) As substiuições são válidas se for selecionado um jogador presente em campo e outro no banco\n\n")
                 .append("Pressionar qualquer tecla para continuar.\n");
+        for(int i = 0; i < 100; i++) System.out.println();
         System.out.println(sbb);
         Scanner in = new Scanner(System.in);
         in.nextLine();
